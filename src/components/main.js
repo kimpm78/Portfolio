@@ -305,12 +305,12 @@ const subImgClick = (e, index, m = false) => {
     //$('.wi' + e + ' .IMG_main').html(`<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(
       ".wi" + e + " .IMG_main"
-    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지'></div>`;
+    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクト画像'></div>`;
   } else {
     //$('.wi' + e + ' .IMG_main').html(`<img src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(
       ".wi" + e + " .IMG_main"
-    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지'></div>`;
+    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクトイメージ'></div>`;
   }
   $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
   $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
@@ -321,11 +321,11 @@ const mainImgClick = (e, index, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지'>`
+      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지'>`
+      `<img src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -338,11 +338,11 @@ const visualImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='디자인 작업물'>`
+      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='visualImg' src='./src/img/project_img/${img}' alt='디자인 작업물'>`
+      `<img class='visualImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -354,11 +354,11 @@ const pastImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/past/${img}' alt='디자인 작업물'>`
+      `<img class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='pastImg' src='./src/img/past/${img}' alt='디자인 작업물'>`
+      `<img class='pastImg' src='./src/img/past/${img}' alt='デザインイメージ'>`
     );
   }
   $(".sizeUP .ct").scrollTop(0);
