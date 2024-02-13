@@ -58,7 +58,7 @@
   margin-right: 100px;
   margin-left: 100px;
   transform: rotate(90deg);
-  background: url("/src/img/arrow_1.png") 50% 50% no-repeat;
+  background: url("../../img/arrow_1.png") 50% 50% no-repeat;
   background-size: 80px 80px;
   filter: invert(100%);
   opacity: 0;
@@ -81,7 +81,7 @@
   margin-left: 100px;
   margin-right: 100px;
   transform: rotate(-90deg);
-  background: url("/src/img/arrow_1.png") 50% 50% no-repeat;
+  background: url("../../img/arrow_1.png") 50% 50% no-repeat;
   background-size: 80px 80px;
   filter: invert(100%);
   opacity: 0;
@@ -157,7 +157,7 @@
   bottom: 13px;
   width: 22px;
   height: 22px;
-  background: url("/src/img/zoom.png") 50% 50% no-repeat;
+  background: url("../../img/zoom.png") 50% 50% no-repeat;
   background-size: 22px 22px;
   color: white;
   font-weight: 300;
@@ -355,7 +355,7 @@
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
-  background: url(/src/img/github2.png) 50% 50% no-repeat;
+  background: url(../../img/github2.png) 50% 50% no-repeat;
   background-size: 22px 22px;
   z-index: 10;
 }
@@ -405,7 +405,7 @@
   top: 50%;
   left: 5px;
   transform: translateY(-50%);
-  background: url(/src/img/figma.png) 50% 50% no-repeat;
+  background: url(../../img/figma.png) 50% 50% no-repeat;
   background-size: 10px 14px;
   z-index: 10;
   filter: invert(100%);
@@ -466,7 +466,7 @@
   top: 50%;
   left: 7px;
   transform: translateY(-50%);
-  background: url(/src/img/readme.png) 50% 50% no-repeat;
+  background: url(../../img/readme.png) 50% 50% no-repeat;
   background-size: 17px 17px;
   z-index: 10;
   filter: invert(100%);
@@ -534,7 +534,7 @@
   margin-left: 50px;
   margin-right: 10px;
   transform: rotate(-90deg);
-  background: url("/src/img/arrow_1.png") 50% 50% no-repeat;
+  background: url("../../img/arrow_1.png") 50% 50% no-repeat;
   background-size: 40px 40px;
   filter: invert(100%);
   opacity: 0.5;
@@ -546,7 +546,7 @@
   margin-left: 10px;
   margin-right: 50px;
   transform: rotate(90deg);
-  background: url("/src/img/arrow_1.png") 50% 50% no-repeat;
+  background: url("../../img/arrow_1.png") 50% 50% no-repeat;
   background-size: 40px 40px;
   filter: invert(100%);
   opacity: 0.5;
@@ -744,7 +744,7 @@
   content: "";
   width: 40px;
   height: 40px;
-  background: url("/src/img/close_icon.png") 50% 50% no-repeat;
+  background: url("../../img/close_icon.png") 50% 50% no-repeat;
   background-size: 20px 20px;
 }
 .Works1_container .sizeUP {
@@ -796,7 +796,7 @@
   content: "";
   width: 40px;
   height: 40px;
-  background: url("/src/img/close_icon.png") 50% 50% no-repeat;
+  background: url("../../img/close_icon.png") 50% 50% no-repeat;
   background-size: 13px 13px;
   filter: invert(100%);
 }

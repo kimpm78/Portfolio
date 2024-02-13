@@ -21,7 +21,7 @@
   width: 500px;
   height: 100%;
   min-height: 600px;
-  background: url("/src/img/desk01.png") 22% 0% no-repeat;
+  background: url("../../img/desk01.png") 22% 0% no-repeat;
   opacity: 50%;
   background-size: 900px auto;
   background-attachment: fixed;
@@ -84,7 +84,7 @@
   font-size: 0.9rem;
 }
 .About_container #typo_3 .quote {
-  font-family: "Noto Sans KR" !important;
+  font-family: "Noto Sans JP" !important;
   font-size: 0.9rem;
 }
 .About_container #typo_3 .tag_wrap {

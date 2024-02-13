@@ -75,7 +75,7 @@
   width: 35px;
   height: 35px;
   top: 18px;
-  background: url("/src/img/arrow_1.png") 50% 50% no-repeat;
+  background: url("../../img/arrow_1.png") 50% 50% no-repeat;
   background-size: 35px 35px;
   filter: invert(100%);
 }

@@ -34,7 +34,7 @@ header .Header_container > .burger > .open_icon {
   width: 35px;
   height: 100%;
   opacity: 1;
-  background: url("/src/img/hamburger_icon.png") 50% 50% no-repeat;
+  background: url("../../img/hamburger_icon.png") 50% 50% no-repeat;
   background-size: 35px 35px;
   transition: 200ms;
 }
@@ -43,7 +43,7 @@ header .Header_container > .burger > .close_icon {
   width: 35px;
   height: 100%;
   opacity: 0;
-  background: url("/src/img/close_icon.png") 50% 50% no-repeat;
+  background: url("../../img/close_icon.png") 50% 50% no-repeat;
   background-size: 20px 20px;
   transition: 200ms;
 }
