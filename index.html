@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Prime PORTFOLIO</title>
+    <meta name="description" content='ようこそ。Prime PORTFOLIOへ' />
+    <meta property="og:url" content="https://kimpm78.github.io/Portfolio/">
+    <meta property="og:title" content="Prime PORTFOLIO">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://kimpm78.github.io/Portfolio/src/img/prime_logo.svg">
+    <meta property="og:description" content="ようこそ。Prime PORTFOLIOへ">
+    
+    <link rel="shortcut icon" href="./src/img/favicon.ico" />
+    <link rel="stylesheet" href="./src/styles/index/index.css" />
+    <link rel="stylesheet" href="./src/styles/header/index.css" />
+    <link rel="stylesheet" href="./src/styles/intro/index.css" />
+    <link rel="stylesheet" href="./src/styles/about/index.css" />
+    <link rel="stylesheet" href="./src/styles/stacks/index.css" />
+    <link rel="stylesheet" href="./src/styles/works/works1.css" />
+    <link rel="stylesheet" href="./src/styles/works/works2.css" />
+    <link rel="stylesheet" href="./src/styles/contact/index.css" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script type='text/javascript' src='./src/components/MouseWheel/jquery.mousewheel.min.js'></script>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="Header_container">
+            <div class="burger">
+                <div class="close_icon"></div>
+                <div class="open_icon"></div>
+            </div>
+            <nav class="left">
+                <a id="logo" href="#"><img src="./src/img/prime_logo.svg" alt="prime_logo"></a>
+            </nav>
+            <nav class="right">
+                <ul id="menu">
+                    <a href="#0">
+                        <li id="menu0" data-menuanchor="0">INTRO</li>
+                    </a>
+                    <a href="#1">
+                        <li id="menu1" data-menuanchor="1">ABOUT</li>
+                    </a>
+                    <a href="#2">
+                        <li id="menu2" data-menuanchor="2">STACKS</li>
+                    </a>
+                    <a href="#3">
+                        <li id="menu3" data-menuanchor="3">WORKS</li>
+                    </a>
+                    <a href="#4">
+                        <li id="menu4" data-menuanchor="4">CONTACT</li>
+                    </a>
+                </ul>
+            </nav>
+        </div>
+        <div class="m_menu">
+            <ul>
+                <a href="#0">
+                    <li id="menu0" data-menuanchor="0">INTRO</li>
+                </a>
+                <a href="#1">
+                    <li id="menu1" data-menuanchor="1">ABOUT</li>
+                </a>
+                <a href="#2">
+                    <li id="menu2" data-menuanchor="2">STACKS</li>
+                </a>
+                <a href="#3">
+                    <li id="menu3" data-menuanchor="3">WORKS</li>
+                </a>
+                <a href="#4">
+                    <li id="menu4" data-menuanchor="4">CONTACT</li>
+                </a>
+            </ul>
+        </div>
+    </header>
+
+    <!-- FullPage SECTIONS -->
+    <div id="fullpage">
+        <!-- Intro -->
+        <section class="section ct Intro" id="Intro">
+            <div id="typo_1">
+                <h3>PRIME</h3>
+                <h1>FRONT-END</h1>
+                <h2>PORT_FOLIO</h2>
+            </div>
+            <div class="scroll">
+                <div></div>
+                <div></div>
+                <p>SCROLL DOWN</p>
+            </div>
+        </section>
+        <!-- About -->
+        <section class="section ct About" id="About">
+            <div class="About_container">
+                <div class="attbg"></div>
+                <div id="typo_2">
+                    <h1>新しい道を作り<br><span>いつもチャレンジする</span></h1>
+                </div>
+                <div id="typo_3">
+                    <p>フロントエンドに生かしている Primeです。</p>
+                    <p class="word"><span class="quote">“</span>好奇心を持つ、計画をする<span
+                            class="quote">”</span>
+                    </p>
+                    <p> 私の意志と経験から、決してあきらめない姿勢を持ち、完璧を目指して
+                        います。いつも顧客を考え、常に最高の成果を目指しています。<br>同じ言語でなく、常に新しいトレンドに沿って経験を積んでいます。</p>
+                    <ul class="tag_wrap">
+                        <li class="tag">#熱情がある</li>
+                        <li class="tag">#詳しい</li>
+                        <li class="tag">#執拗な</li>
+                    </ul>
+                    <a href="#1/1" id="more">
+                        <div class="more">詳細を見る</div>
+                    </a>
+                </div>
+            </div>
+            <div id='about1'>
+                <div class="back"></div>
+                <div class="close"><img src='src/img/close_icon.png' alt="クローズボタン"></div>
+                <div class="about1_container">
+                    <h1>MY_STORY</h1>
+                    <p>
+                        &nbsp;
+                        2012年からデザインに興味を持ち、自らデザインし、製作することを楽しみました。様々な製品デザインの経験を通じて、ウェブデザインにも興味を持ち、ウェブデザインの基礎を学び、コーディングを始めました。<br>徐々にプログラミングを通じて作品を生み出すことから大きな達成感を感じ、それによってプログラミングの世界へ一歩踏み入ることができました。
+                    </p>
+                    <ul class="past_wrap">
+                        <li onclick="pastImgClick('pro1.jpg')"><img src='src/img/past/pro1.jpg' alt='project_img02'></li>
+                        <li onclick="pastImgClick('pro2.jpg')"><img src='src/img/past/pro2.jpg' alt='project_img02'></li>
+                        <li onclick="pastImgClick('pro3.jpg')"><img src='src/img/past/pro3.jpg' alt='project_img03'></li>
+                        <li onclick="pastImgClick('pro4.jpg')"><img src='src/img/past/pro4.JPG' alt='project_img04'></li>
+                        <li onclick="pastImgClick('pro5.jpg')"><img src='src/img/past/pro5.jpg' alt='project_img05'></li>
+                        <li onclick="pastImgClick('pro6.jpg')"><img src='src/img/past/pro6.jpg' alt='project_img06'></li>
+                        <li>
+                            <p>・・・</p>
+                        </li>
+                    </ul>
+                    <p class="img_title">[ 2015 - 2021 作品 ]</p>
+                    <p>&nbsp;
+                        インターンから始まり、さまざまな分野での参加を経験した作品です。 このようなデザイン経験は、プログラマーとしての成長に役立ち、言語やアルゴリズムを学ぶことで、デザイナーが望む方向を理解するようになりました。<br>&nbsp;常に最新のトレンドに沿って新しい技術を学ぶことができるということに達成感を感じます。常に不足している部分を補い、プログラムに関連したことを完璧にするために、絶えず勉強しています。</p>
+                </div>
+            </div>
+        </section>
+        <!-- Stacks -->
+        <section class="section ct Stacks" id="Stacks">
+            <canvas id="dotCanvas"></canvas>
+            <div class="grad top"></div>
+            <div class="grad bottom"></div>
+            <div class="Stacks_container">
+                <h1>TECH STACK</h1>
+                <h2>アイコンにマウスを合わせると、詳細な説明が表示されます。</h2>
+                <div id="frontendStack" class="stacks_wrap">
+                    <div class="subTitle frontend">
+                        <span># FRONT_END SKILL</span>
+                    </div>
+                    <div class="stack_container">
+                        <ul>
+                            <li>
+                                <img src="src/img/stack_icon/html5.png" alt="HTML5">
+                                <div>
+                                    <p>HTML5</p>
+                                    <p>WEBアクセシビリティと標準準拠を遵守し、セマンティックタグを使用してマークアップすることができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/css3.png" alt="CSS3">
+                                <div>
+                                    <p>CSS3</p>
+                                    <p>positionおよびdisplayプロパティを適切に活用して、レスポンシブWebを適用することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/sass.png" alt="SASS">
+                                <div>
+                                    <p>SASS</p>
+                                    <p>SCSSの文法とモジュール化をうまく活用して、スタイル作業をスムーズに行うことができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/js.png" alt="JS">
+                                <div>
+                                    <p>Javascript</p>
+                                    <p>JavaScriptの配列、条件分岐、メソッド、DOMを理解し、さまざまな状況に適用することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/Typescript.png" alt="Typescript">
+                                <div>
+                                    <p>Typescript</p>
+                                    <p>Javascriptよりコードの可読性を高め、デバッグを容易にするために適用しています。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/reactjs.png" alt="React.js">
+                                <div>
+                                    <p>React.js</p>
+                                    <p>構造と各種なフックについてよく知っており、汎用性が高く再利用可能なコンポーネントの設計ができます。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="backendStack" class="stacks_wrap">
+                    <div class="subTitle backend">
+                        <span># BACK_END SKILL</span>
+                    </div>
+                    <div class="stack_container">
+                        <ul>
+                            <li>
+                                <img src="src/img/stack_icon/nodejs.png" alt="Node.js">
+                                <div>
+                                    <p>Node.js</p>
+                                    <p>サーバーのAPIを構築し、DBと連携してCRUD機能を実行することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/nextjs.png" alt="PHP">
+                                <div>
+                                    <p>Next.js</p>
+                                    <p>SSRと静的サイト生成を利用して、効率的にWEBサイトを構築や高度な機能などを開発生産性と最適化に努めます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img id='height_icon' src="src/img/stack_icon/mongodb.png" alt="mongoDB">
+                                <div>
+                                    <p>mongoDB</p>
+                                    <p>mongooseを使用してMongoDBのスキーマを定義し、データを処理することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img id='height_icon' src="src/img/stack_icon/mysql.png" alt="SQL">
+                                <div>
+                                    <p>MySQL</p>
+                                    <p>データベースの作成、変更、クエリの実行、ユーザー権限の管理など、各種な機能を設定することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/json.png" alt="JSON">
+                                <div>
+                                    <p>JSON</p>
+                                    <p>JSONのオブジェクト構造を理解し、JavaScriptで活用することができます。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="toolStack" class="stacks_wrap">
+                    <div class="subTitle backend">
+                        <span># USING_TOOL</span>
+                    </div>
+                    <div class="stack_container">
+                        <ul>
+                            <li>
+                                <img src="src/img/stack_icon/vscode.png" alt="VisualStudio code">
+                                <div>
+                                    <p>VS Code</p>
+                                    <p>主に使用しているコーディングツールで、コーディングを便利にする拡張機能をインストールして利用しています。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img id='height_icon' src="src/img/stack_icon/figma.png" alt="Figma">
+                                <div>
+                                    <p>Figma</p>
+                                    <p>デスクトップやモバイルのUI/UXデザインを作成し、デバッグをうまく活用することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/photoshop.png" alt="photoshop">
+                                <div>
+                                    <p>PhotoShop</p>
+                                    <p>マスク効果やレイヤーの活用などを使って、さまざまなグラフィック要素を制作することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/illustrator.png" alt="illustrator">
+                                <div>
+                                    <p>Illustrator</p>
+                                    <p>ペンツールを活用し、その他のツールを使って、ベクター形式のデザイン要素を制作することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/postman.png" alt="postman">
+                                <div>
+                                    <p>POSTMAN</p>
+                                    <p>ペンツールを活用し、その他のツールを使って、ベクター形式のデザイン要素を制作することができます。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <img src="src/img/stack_icon/git.png" alt="Git">
+                                <div>
+                                    <p>Git</p>
+                                    <p>commit、push、pull、cloneなどのGitコマンドを使用して、リポジトリにアクセスできます。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Works -->
+        <section class="section ct Works" id="Works">
+            <div class="Works1_container">
+                <h1>WORKS</h1>
+                <div class="Item_container">
+                    <div class="Item_nav_prev" title="PRIME PROJECT"></div>
+                    <div class="wi wi0 visible">
+                        <div class="Item_wrap">
+                            <div class="IMG_wrap">
+                                <div class="IMG_main" onclick="mainImgClick(0,0)"><img
+                                        src='./src/img/project_img/0_1.jpg' alt='project_main'></div>
+                                <div class="IMG_sub_wrap">
+                                    <div class="IMG_sub active" onclick="subImgClick(0,1)"><img
+                                            src='./src/img/project_img/0_1.jpg' alt='project_img1-1'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(0,2)"><img
+                                            src='./src/img/project_img/0_2.jpg' alt='project_img1-2'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(0,3)"><img 
+                                            src='./src/img/project_img/0_3.jpg' alt='project_img1-3'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(0,4)"><img
+                                        src='./src/img/project_img/0_4.jpg' alt='project_img1-4'></div>
+                                </div>
+                            </div>
+                            <div class="info_wrap">
+                                <div class="info_title">KAZARU</div>
+                                <div class="info_sub">個人プロジェクト</div>
+                                <div class="info_main">PhotoShop + Illustrator + figma + を用いて 実装をした ECサイトです。アメリカのトレンドデザインを参考（シャネル、ルイ・ヴィトン）。無色彩の組み合わせで顧客が見やすくなるように制作しました。 <span onclick="moreButtonClick(0)">もっと見る</span>
+                                    <div class="more_wrap">
+                                        <p>・・・</p>
+                                        純粋なデザインツールだけを用いて作成しました。最初からWEBサイトがどのように作られるのかに興味を持ち、趣味として始めました。プロジェクトの期間は長くはありませんでしたが、次回は時間をかけてフロントエンド技術を取り入れて作成する予定です。
+                                    </div>
+                                </div>
+                                <ul class="tag_wrap">
+                                    <li class="tag">#PhotoShop</li>
+                                    <li class="tag">#Illustrator</li>
+                                    <li class="tag">#Figma</li>
+                                    <li class="tag">#Web Design</li>
+                                    <li class="tag">#prototype</li>
+                                </ul>
+                                <div class="button_wrap">
+                                    <a href="https://www.figma.com/proto/p7l1SzGViynO4pRs7CaQUB/KAZARU_Fashion-project?node-id=67-1281&starting-point-node-id=67%3A1281&mode=design&t=xrGEJYbMRro033Pn-1" target="_black">
+                                        <div class="goto">Figma</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wi wi1">
+                        <div class="Item_wrap">
+                            <div class="IMG_wrap">
+                                <div class="IMG_main" onclick="mainImgClick(1,0,true)"><img
+                                        src='./src/img/project_img/1_1.jpg' alt='project_main'></div>
+                                <div class="IMG_sub_wrap">
+                                    <div class="IMG_sub active" onclick="subImgClick(1,1,true)"><img
+                                            class='mobileImg'
+                                            src='./src/img/project_img/1_1.jpg' alt='PROJECT_IMG'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(1,2,true)"><img
+                                            class='mobileImg'
+                                            src='./src/img/project_img/1_2.jpg' alt='PROJECT_IMG'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(1,3)"><img
+                                            src='./src/img/project_img/1_3.jpg' alt='PROJECT_IMG'></div>
+                                </div>
+                            </div>
+                            <div class="info_wrap">
+                                <div class="info_title">TOSS（ver.jp）</div>
+                                <div class="info_sub">個人プロジェクト</div>
+                                <div class="info_main">TOSSの金融システムを
+                                    日本版で実装をしました。TOSS社のメイン色を
+                                    参考しました。UI/UXを TOSS社のメイン色を参考し、
+                                    機能面を表示することを必要ものだけ表現しました。
+                                </div>
+                                <ul class="tag_wrap">
+                                    <li class="tag">#PhotoShop</li>
+                                    <li class="tag">#Illustrator</li>
+                                    <li class="tag">#Figma</li>
+                                    <li class="tag">#Web Design</li>
+                                    <li class="tag">#金融システムデザイン</li>
+                                </ul>
+                                <div class="button_wrap">
+                                    <a href="https://www.figma.com/proto/ae7g5SYcEz6Nh5uNzo7EHF/Toss_JP_ver?node-id=89-1312&starting-point-node-id=89%3A1312&mode=design&t=kc8yPU15scb1fiHJ-1" target="_blank">
+                                        <div class="goto">Figma</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wi wi2">
+                        <div class="Item_wrap">
+                            <div class="IMG_wrap">
+                                <div class="IMG_main" onclick="mainImgClick(2,0)"><img
+                                        src='./src/img/project_img/2_0.jpg' alt='project_main'></div>
+                                <div class="IMG_sub_wrap">
+                                    <div class="IMG_sub active" onclick="subImgClick(2,0)"><img
+                                            src='./src/img/project_img/2_0.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(2,1)"><img
+                                            src='./src/img/project_img/2_1.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(2,2, true)"><img class='mobileImg'
+                                            src='./src/img/project_img/2_2.jpg' alt='프로젝트 이미지'></div>
+                                </div>
+                            </div>
+                            <div class="info_wrap">
+                                <div class="info_title">Prime-monorepo</div>
+                                <div class="info_sub">個人プロジェクト</div>
+                                <div class="info_main"> Next.js + MongoDBを
+                                    用いて開発した EC Siteです。MongoDBで CRUD機能を
+                                    実装しました。
+                                    <span onclick="moreButtonClick(2)">もっと見る</span>
+                                    <div class="more_wrap">
+                                        <p>···</p>
+                                        Next.jsのバージョン14利用で、自分が足りない
+                                        箇所があることを理解して行こうと考えました。
+                                        まだ、未完成のコンポーネントがあるので、修正をしています。
+                                    </div>
+                                </div>
+                                <ul class="tag_wrap">
+                                    <li class="tag">#TypeScript</li>
+                                    <li class="tag">#Next.js</li>
+                                    <li class="tag">#MongoDB</li>
+                                    <li class="tag">#TailWind_CSS</li>
+                                    <li class="tag">#レスポンシブ対応</li>
+                                </ul>
+                                <div class="button_wrap">
+                                    <a href="https://github.com/kimpm78/Prime-monorepo" target="_blank">
+                                        <div class="more">GitHub</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wi wi3">
+                        <div class="Item_wrap">
+                            <div class="IMG_wrap">
+                                <div class="IMG_main" onclick="mainImgClick(3,0)"><img
+                                        src='./src/img/project_img/3_0.jpg' alt='project_main'></div>
+                                <div class="IMG_sub_wrap">
+                                    <div class="IMG_sub active" onclick="subImgClick(3,0)"><img
+                                            src='./src/img/project_img/3_0.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(3,1)"><img
+                                            src='./src/img/project_img/3_1.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(3,2)"><img
+                                            src='./src/img/project_img/3_2.jpg' alt='프로젝트 이미지'></div>
+                                </div>
+                            </div>
+                            <div class="info_wrap">
+                                <div class="info_title">L.E.O.T</div>
+                                <div class="info_sub">個人プロジェクト</div>
+                                <div class="info_main">不動産サイトを
+                                    オレンジ色のメインで、このサイトは
+                                    初めてのReact.jsを使用して作成しました。
+                                    <span onclick="moreButtonClick(3)">もっと見る</span>
+                                    <div class="more_wrap">
+                                        <p>···</p>
+                                        アニメーションの効果を利用してUI/UXで高級感
+                                        を与えることを考えました。
+                                    </div>
+                                </div>
+                                <ul class="tag_wrap">
+                                    <li class="tag">#React.js</li>
+                                    <li class="tag">#JavaScript</li>
+                                    <li class="tag">#Styled-Components</li>
+                                    <li class="tag">#レスポンシブ対応</li>
+                                </ul>
+                                <div class="button_wrap">
+                                    <a href="https://github.com/kimpm78/realEstate_site" target="_blank">
+                                        <div class="more">GitHub</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wi wi4">
+                        <div class="Item_wrap">
+                            <div class="IMG_wrap">
+                                <div class="IMG_main" onclick="mainImgClick(4,0)"><img
+                                        src='./src/img/project_img/4_0.jpg' alt='프로젝트 메인이미지'></div>
+                                <div class="IMG_sub_wrap">
+                                    <div class="IMG_sub active" onclick="subImgClick(4,0)"><img
+                                            src='./src/img/project_img/4_0.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(4,1)"><img
+                                            src='./src/img/project_img/4_1.jpg' alt='프로젝트 이미지'></div>
+                                    <div class="IMG_sub" onclick="subImgClick(4,2)"><img
+                                            src='./src/img/project_img/4_2.jpg' alt='프로젝트 이미지'></div>
+                                </div>
+                            </div>
+                            <div class="info_wrap">
+                                <div class="info_title">slack Clone Coding</div>
+                                <div class="info_sub">個人プロジェクト</div>
+                                <div class="info_main">スラックのホームページを
+                                    参考して 練習の目的で クローンコーディングを
+                                    行いました。既存のホームページのマークアップ構造
+                                    を自分だけのコンポーネントで実装して見ました。</div>
+                                <ul class="tag_wrap">
+                                    <li class="tag">#TypeScript</li>
+                                    <li class="tag">#Next.js</li>
+                                    <li class="tag">#Tailwind_CSS</li>
+                                    <li class="tag">#CloneCoding</li>
+                                </ul>
+                                <div class="button_wrap">
+                                    <a href="https://github.com/kimpm78/slack_clone_coding" target="_blank">
+                                        <div class="more">GitHub</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Item_nav_next" title="NEXT PROJECT"></div>
+                    <div class="m_nav_wrap">
+                        <div class="prev"></div>
+                        <div class="next"></div>
+                    </div>
+                </div>
+                <ul class="Item_nav_button_wrap">
+                    <li id="nav0" class="active"></li>
+                    <li id="nav1"></li>
+                    <li id="nav2"></li>
+                    <li id="nav3"></li>
+                    <li id="nav4"></li>
+                </ul>
+                <div class="sizeUP">
+                    <div class="top">
+                        <div class="close"></div>
+                    </div>
+                    <div class="ct"></div>
+                </div>
+                <div class="readme_container">
+                    <div class="readme_background" onclick="readmeClick()"></div>
+                    <!-- <div class="readme_scroll">
+                        <div class="readme_wrap">
+                            <h1>Prime<span>PROJECT</span></h1>
+                            <div class="table">
+                                <ul>
+                                    <li><p class="label">簡単紹介</p><p>開発関連  정보들을 메모해두고 싶어 직접 풀스택으로 만든 개발 블로그</p></li>
+                                    <li><p class="label">진행 기간</p><p>2022. 11 ~ 진행 중</p></li>
+                                    <li><p class="label">핵심 사용 기술</p>
+                                        <ul class="tags">
+                                            <li>
+                                                <quotes>React.js</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>scss</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>axios</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>Node.js</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>express</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>RESTful</quotes>
+                                            </li>
+                                            <li>
+                                                <quotes>MongoDB</quotes>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><p class="label">구성원</p><p>개인 프로젝트</p></li>
+                                    <li><p class="label">사이트 바로가기</p><p><a href="https://blog.poot97.woobi.co.kr" target="_blank">JongYeon's 개발
+                                        블로그</a></p></li>
+                                </ul>
+                            </div>
+
+                            <div class="hr"></div>
+                            
+                            <div class="detailImg_wrap">
+                                <img src="./src/img/project_img/1_0.png">
+                                <img src="./src/img/project_img/1_1.png">
+                                <img src="./src/img/project_img/0_3.jpg">
+                            </div>
+
+                            <h2>詳細内容</h2>
+                                <h3> · 기술 선정 이유</h3>
+                                <p>컴포넌트 구조화의 간편함과 CSR의 특징인 부드러운 화면 전환이 가능한 것이 UI/UX 적으로 매력적으로 느껴져 React를 선정했고, React와 같이 쓰기좋은 Node.js를 서버로 쓰기로 했다. DB는 noSQL에 대해서 알아보고 싶었고 복잡한 쿼리를 사용할 일이 없어보여 MongoDB를 사용했다.</p>
+                                <h3> · 프로젝트 과정</h3>
+                                <p>Figma로 디자인 -> React로 퍼블리싱 -> 데이터 스키마 정의 -> Node.js 서버 api 구축 -> 서버 배포 -> 검색엔진최적화(SEO) -> 개발자 지인들에게 간단한 QA 받고 버그 수정 -> 관리자페이지 구축 -> 유지보수</p>
+                                <h3> · 한계점</h3>
+                                <p>블로그를 만들고 구글 검색에 노출되어 여러 개발자들에게 정보를 공유하고 싶어서 SEO에 대해 찾아보다가 CSR 방식은 검색엔진최적화가 어렵다는 것을 알게 되었고 방법을 찾다가 SSR로 넘어가기에는 너무 오래걸릴 것 같아 CSR로 유지하면서 react-helmet과 sitemap을 생성하는 방법을 이용해 SEO 문제를 해결해 냈다. 다음에는 Next.js를 이용하여 SSR로 블로그를 개편해 볼 생각이다.</p>
+                        </div>
+                    </div> -->
+                    <div class="top">
+                        <div class="close" onclick="readmeClick()"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="Works2_container">
+                <div class="blend_background"></div>
+                <h1>DESIGN & GRAPHIC</h1>
+                <p>詳しく見るにはマウスを上げてクリックしてください。</p>
+                <div class="Visual_container">
+                    <div class="Visual_wrap">
+                        <ul>
+                            <li id="v0" onclick="visualImgClick('kazaru_main.jpg')"><img
+                                    src='src/img/project_img/kazaru_main.jpg' alt='KAZARU'>
+                                <div class="info_wrap">
+                                    <img src="src/img/project_img/Kazaru.png">
+                                    <p>KAZARU PROJECT</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#3D3D3D<div style="background-color: #3D3D3D;"></div>
+                                            </li>
+                                            <li>#BEBEAB<div style="background-color: #BEBEAB;"></div>
+                                            </li>
+                                            <li>#626275<div style="background-color: #626275;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="v1" onclick="visualImgClick('Fiat_main.jpg')"><img
+                                    src='src/img/project_img/Fiat_main.jpg' alt='PROJECT'>
+                                <div class="info_wrap">
+                                    <img src="src/img/project_img/FIAT_logo.png">
+                                    <p>FIAT Redesign</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#F3F3F3<div style="background-color: #F3F3F3;"></div>
+                                            </li>
+                                            <li>#CC0001<div style="background-color: #CC0001;"></div>
+                                            </li>
+                                            <li>#1E1E1E<div style="background-color: #1E1E1E;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="v2" onclick="visualImgClick('Adidas_main.jpg', true)"><img
+                                    src='src/img/project_img/Adidas_main.jpg' alt='디자인 작업물'>
+                                <div class="info_wrap">
+                                    <img src="src/img/project_img/ADIDAS_logo.png">
+                                    <p>ADIDAS Redesign</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#000000<div style="background-color: #000000;"></div>
+                                            </li>
+                                            <li>#FFFFFF<div style="background-color: #FFFFFF;"></div>
+                                            </li>
+                                            <li>#FF3A3A<div style="background-color: #FF3A3A;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="v3" onclick="visualImgClick('LEOT_main.jpg')"><img
+                                    src='src/img/project_img/LEOT_main.jpg' alt='LEOT_Project'>
+                                <div class="info_wrap">
+                                    <img src="src/img/project_img/POLO_logo.png">
+                                    <p>L.E.O.T</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#000000<div style="background-color: #000000;"></div>
+                                            </li>
+                                            <li>#FFFFFF<div style="background-color: #FFFFFF;"></div>
+                                            </li>
+                                            <li>#882E2E<div style="background-color: #882E2E;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="v4" onclick="visualImgClick('kimEats_main.jpg', true)"><img
+                                    src='src/img/project_img/kimEats_main.jpg' alt='디자인 작업물'>
+                                <div class="info_wrap">
+                                    <img>
+                                    <p>Kim_Eats</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#525E76<div style="background-color: #525e76;"></div>
+                                            </li>
+                                            <li>#D7A95C<div style="background-color: #D7A95C;"></div>
+                                            </li>
+                                            <li>#F8F8F8<div style="background-color: #F8F8F8;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact -->
+        <section class="section ct Contact" id="Contact">
+            <div class="Contact_container">
+                <div class="blend_background"></div>
+                <h1>CONTACT</h1>
+                <div class="Contact_wrap">
+                    <p>PROJECT PRIME</p>
+                    <p>プロジェクトの実装が完了次第にアップロードをしています。</p>
+                    <p><a href="https://github.com/kimpm78" target="_blank">GITHUB : https://github.com/kimpm78</a></p>
+                </div>
+                <ul class="social_wrap">
+                    <li><a href="https://github.com/kimpm78" target="_blank"><img src="src/img/github.png"
+                                alt="GITHUB"></a></li>
+                    <li><a href="#"><img src="src/img/instagram.png" alt="INSTAGRAM"></a></li>
+                    <li><a href="#"><img src="src/img/facebook.png" alt="FACEBOOK"></a></li>
+                </ul>
+                <div class="copyright">Copyright ⓒ 2023 - 2024 PrimeProject All rights reserved.</div>
+        </section>
+    </div>
+
+</body>
+
+<!-- Plugin : FullPage -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.15/fullpage.css"
+    integrity="sha512-joJLRX4chQYCQlk0R4FXEgZHqsWA1hf4e+C+QKyi8fnfDm8FlEsNAVo+ByQhD19BrgVZGSOJKAQZa5M5gXDtpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.15/fullpage.min.js"
+    integrity="sha512-rNf09cQHIWzD8BU37lIb3rInygeWXW2hVqJ7niVtTPXWuVR3aFiph1eFIeDiEQV8J45u0qfp7ng8I3TzJHY4Eg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- Custom -->
+<script src="./src/components/TopScrollbar/index.js"></script>
+<script src="./src/components/main.js"></script>
+
+</html>
