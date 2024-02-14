@@ -76,7 +76,7 @@
   z-index: 10;
 }
 .About_container #typo_3 p {
-  word-break: keep-all;
+  /* word-break: keep-all; */
 }
 .About_container #typo_3 .word {
   margin-left: 8px;
