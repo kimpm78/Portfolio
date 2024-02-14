@@ -273,7 +273,7 @@
     background-position: 100% 50%;
   }
 }
-@media (max-width: 960px) {
+@media all and (max-width: 960px) {
   .About_container {
     align-items: center;
     margin: 0px auto !important;
@@ -294,7 +294,7 @@
     background-size: 960px auto;
   }
 }
-@media (max-width: 480px) {
+@media all and (max-width: 480px) {
   .about1_container {
     padding-top: 90px !important;
   }
@@ -309,7 +309,7 @@
     display: none !important;
   }
 }
-@media (hover: hover) {
+@media all and (hover: hover) {
   .past_wrap li:hover img {
     filter: brightness(120%);
   }
