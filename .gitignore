@@ -1,0 +1,6 @@
+# .DS_Store 削除
+*.DS_Store
+
+# prettier
+.prettierrc
+.gitignore
