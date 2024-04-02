@@ -377,7 +377,7 @@ $(".Item_nav_next, .m_nav_wrap .next").click(() => {
   $(".wi .info_main span").text("もっと見る");
   if (!isClick) {
     isClick = true;
-    if (worksItem == 4) {
+    if (worksItem == 5) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
         $(".wi" + 0)
@@ -389,7 +389,7 @@ $(".Item_nav_next, .m_nav_wrap .next").click(() => {
         $("#nav" + 0).addClass("active");
       });
     }
-    if (worksItem < 5) {
+    if (worksItem < 6) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
         $(".wi" + (worksItem + 1))

@@ -1,6 +1,15 @@
 # .DS_Store 削除
-*.DS_Store
+.DS_Store
+src/.DS_Store
+src/img/.DS_Store
 
 # prettier
 .prettierrc
 .gitignore
+
+#package
+package-lock.json
+package.json
+
+#node
+node_modules/
