@@ -45,48 +45,48 @@ new fullpage("#fullpage", {
         $("#About").addClass("visible");
         timeOutarray[i++] = setTimeout(
           () => $("#typo_3").addClass("visible"),
-          400
+          400,
         );
         timeOutarray[i++] = setTimeout(
           () => $("#typo_3 .more").addClass("visible"),
-          900
+          900,
         );
         break;
       case 2:
         $("#Stacks").addClass("visible");
         timeOutarray[i++] = setTimeout(
           () => $("#frontendStack").addClass("visible"),
-          100
+          100,
         );
         timeOutarray[i++] = setTimeout(
           () => $("#backendStack").addClass("visible"),
-          400
+          400,
         );
         timeOutarray[i++] = setTimeout(
           () => $("#toolStack").addClass("visible"),
-          700
+          700,
         );
         break;
       case 3:
         $("#Works").addClass("visible");
         timeOutarray[i++] = setTimeout(
           () => $(".Item_nav_prev").addClass("visible"),
-          500
+          500,
         );
         timeOutarray[i++] = setTimeout(
           () => $(".Item_nav_next").addClass("visible"),
-          500
+          500,
         );
         timeOutarray[i++] = setTimeout(
           () => $(".Item_nav_button_wrap").addClass("visible"),
-          500
+          500,
         );
         break;
       case 4:
         $("#Contact").addClass("visible");
         timeOutarray[i++] = setTimeout(
           () => $(".social_wrap").addClass("visible"),
-          700
+          700,
         );
         break;
     }
@@ -184,7 +184,7 @@ function getDocumentWidth() {
 function getDocumentHeight() {
   return Math.max(
     document.querySelector("#Stacks").clientHeight,
-    window.innerHeight || 0
+    window.innerHeight || 0,
   );
 }
 
@@ -303,14 +303,12 @@ const subImgClick = (e, index, m = false) => {
     .addClass("active");
   if (m) {
     //$('.wi' + e + ' .IMG_main').html(`<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
-    document.querySelector(
-      ".wi" + e + " .IMG_main"
-    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクト画像'></div>`;
+    document.querySelector(".wi" + e + " .IMG_main").outerHTML =
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクト画像'></div>`;
   } else {
     //$('.wi' + e + ' .IMG_main').html(`<img src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
-    document.querySelector(
-      ".wi" + e + " .IMG_main"
-    ).outerHTML = `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクトイメージ'></div>`;
+    document.querySelector(".wi" + e + " .IMG_main").outerHTML =
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクトイメージ'></div>`;
   }
   $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
   $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
@@ -321,11 +319,11 @@ const mainImgClick = (e, index, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`
+      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`
+      `<img src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -338,11 +336,11 @@ const visualImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`
+      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='visualImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`
+      `<img class='visualImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -354,11 +352,11 @@ const pastImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`
+      `<img class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='pastImg' src='./src/img/past/${img}' alt='デザインイメージ'>`
+      `<img class='pastImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -377,7 +375,7 @@ $(".Item_nav_next, .m_nav_wrap .next").click(() => {
   $(".wi .info_main span").text("もっと見る");
   if (!isClick) {
     isClick = true;
-    if (worksItem == 5) {
+    if (worksItem == 6) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
         $(".wi" + 0)
@@ -410,13 +408,13 @@ $(".Item_nav_prev, .m_nav_wrap .prev").click(() => {
     if (worksItem == 0) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
-        $(".wi" + 4)
+        $(".wi" + 6)
           .stop()
           .fadeIn(250, "swing", () => {
-            worksItem = 4;
+            worksItem = 6;
             isClick = false;
           });
-        $("#nav" + 4).addClass("active");
+        $("#nav" + 6).addClass("active");
       });
     }
     if (worksItem > 0) {
@@ -434,7 +432,7 @@ $(".Item_nav_prev, .m_nav_wrap .prev").click(() => {
   }
 });
 
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 7; i++) {
   $("#nav" + i).on("click", (event) => {
     if (!isClick) {
       isClick = true;
@@ -465,7 +463,7 @@ $(".Visual_wrap").hover(
   },
   () => {
     speed = defaultSpeed;
-  }
+  },
 );
 
 $(".Visual_wrap")
