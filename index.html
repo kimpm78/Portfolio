@@ -14,7 +14,9 @@
     <meta property="og:description" content="ようこそ。Prime PORTFOLIOへ">
     
     <link rel="shortcut icon" href="./src/img/favicon.ico" />
+    <link rel="stylesheet" href="./src/styles/loading/index.css" />
     <link rel="stylesheet" href="./src/styles/index/index.css" />
+    <link rel="stylesheet" href="./src/styles/loading/index.css" />
     <link rel="stylesheet" href="./src/styles/header/index.css" />
     <link rel="stylesheet" href="./src/styles/intro/index.css" />
     <link rel="stylesheet" href="./src/styles/about/index.css" />
@@ -22,13 +24,27 @@
     <link rel="stylesheet" href="./src/styles/works/works1.css" />
     <link rel="stylesheet" href="./src/styles/works/works2.css" />
     <link rel="stylesheet" href="./src/styles/contact/index.css" />
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script type='text/javascript' src='./src/components/MouseWheel/jquery.mousewheel.min.js'></script>
 </head>
 
 <body>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script type='text/javascript' src='./src/components/MouseWheel/jquery.mousewheel.min.js'></script>
+    <!-- Loading -->
+    <div id="loading-container" class="loading-container">
+        <div class="pencil">
+            <div class="ball-point"></div>
+            <div class="cap"></div>
+            <div class="cap-base"></div>
+            <div class="middle"></div>
+            <div class="eraser"></div>
+          </div>
+          <div class="line"></div>
+        <h5>ロディング中…</h5>
+    </div>
+
     <!-- HEADER -->
-    <header>
+    <header class="content" id="content">
         <div class="Header_container">
             <div class="burger">
                 <div class="close_icon"></div>
@@ -761,6 +777,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- Custom component -->
+    <script src="./src/components/Loading/index.js"></script>
     <script src="./src/components/TopScrollbar/index.js"></script>
     <script src="./src/components/main.js"></script>
     
