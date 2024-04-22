@@ -19,9 +19,9 @@ $(document).ready(function () {
     $("#loading-container").fadeOut("slow");
     // 스크롤 활성화
     $("body").css("overflow", "auto");
-  }, 10000);
+  }, 5000);
 
-  // 10초 동안 스크롤 막기
+  // 5초 동안 스크롤 막기
   disableScroll();
 });
 
@@ -34,9 +34,9 @@ $(document).ready(function () {
     setTimeout(function () {
       $("#content").css("visibility", "visible");
       $("#fp-nav").css("visibility", "visible");
-    }, 10000);
+    }, 5000);
   }
 
-  // 로그인 중에 10초 동안 가시성 숨기기
+  // 로그인 중에 5초 동안 가시성 숨기기
   hideContent();
 });

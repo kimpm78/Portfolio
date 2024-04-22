@@ -302,13 +302,13 @@ const subImgClick = (e, index, m = false) => {
     .eq(index)
     .addClass("active");
   if (m) {
-    //$('.wi' + e + ' .IMG_main').html(`<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
+    //$('.wi' + e + ' .IMG_main').html(`<img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクト画像'></div>`;
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクト画像'></div>`;
   } else {
-    //$('.wi' + e + ' .IMG_main').html(`<img src='./src/img/project_img/${e}_${index}.jpg' alt='프로젝트 이미지' onclick="mainImgClick(${e}, ${index}, ${m})">`);
+    //$('.wi' + e + ' .IMG_main').html(`<img src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.jpg' alt='プロジェクトイメージ'></div>`;
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ'></div>`;
   }
   $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
   $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
@@ -319,11 +319,11 @@ const mainImgClick = (e, index, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`,
+      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='ロジェクトイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img src='./src/img/project_img/${e}_${index}.jpg' alt='ロジェクトイメージ'>`,
+      `<img src='./src/img/project_img/${e}_${index}.png' alt='ロジェクトイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);

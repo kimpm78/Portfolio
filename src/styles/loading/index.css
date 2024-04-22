@@ -16,7 +16,7 @@
   height: 40px;
   transform-origin: center;
   transform: rotate(135deg);
-  animation: pencil 10s infinite;
+  animation: pencil 5s infinite;
 }
 
 .pencil .ball-point {
@@ -82,7 +82,7 @@
   background: #ffa500;
   transform: scaleX(0);
   transform-origin: center;
-  animation: line 10s infinite;
+  animation: line 5s infinite;
 }
 
 h5 {
