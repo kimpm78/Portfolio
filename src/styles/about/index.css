@@ -223,11 +223,20 @@
   margin-bottom: 15px;
   overflow-x: auto;
   box-sizing: border-box;
+  cursor: grab;
+  user-select: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-y;
+}
+#about1 .past_wrap.is-grabbing {
+  cursor: grabbing;
 }
 #about1 .past_wrap li img {
   height: 220px;
   transition: 300ms ease;
   cursor: pointer;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 #about1 .past_wrap li p {
   width: 90px;

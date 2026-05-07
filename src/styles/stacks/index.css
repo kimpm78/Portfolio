@@ -103,6 +103,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 35px;
 }
 .Stacks_container .stack_container ul li {
@@ -119,25 +120,46 @@
   overflow: hidden;
   transition: 300ms ease;
 }
+.Stacks_container .stack_container ul li::before {
+  position: absolute;
+  content: "";
+  left: -1px;
+  top: 50%;
+  width: 330px;
+  min-height: 140px;
+  background-color: #000000;
+  border: 1px solid rgb(30, 30, 35);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: 300ms ease;
+  z-index: 1;
+}
 .Stacks_container .stack_container ul li img {
+  position: relative;
   width: 50px;
+  z-index: 2;
 }
 .Stacks_container .stack_container ul li #height_icon {
   width: auto;
   height: 50px;
 }
+.Stacks_container .stack_container ul li img.postgres_icon {
+  width: 66px;
+}
 .Stacks_container .stack_container ul li div {
   position: absolute;
   width: 180px;
   left: 150px;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
   opacity: 0;
   transition: left 250ms ease, opacity 400ms ease;
   cursor: default;
+  z-index: 2;
 }
 .Stacks_container .stack_container ul li div p:first-child {
   font-weight: 700;
@@ -145,8 +167,9 @@
 }
 .Stacks_container .stack_container ul li div p:last-child {
   font-weight: 300;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   padding-right: 15px;
+  line-height: 1.45;
 }
 
 @media (max-width: 1080px) {
@@ -237,14 +260,25 @@
     width: auto !important;
     height: 40px !important;
   }
+  .Stacks_container .stack_container ul li img.postgres_icon {
+    width: 54px !important;
+  }
 }
 @media (min-width: 921px) {
-  .stack_container ul li:hover {
-    padding-right: 180px;
-    height: 120px;
+  .stack_container ul li:hover,
+  .stack_container ul li.active {
+    overflow: visible;
+    z-index: 5;
   }
-  .stack_container ul li:hover div {
+  .stack_container ul li:hover::before,
+  .stack_container ul li.active::before {
+    opacity: 1;
+  }
+  .stack_container ul li:hover div,
+  .stack_container ul li.active div {
     left: 90px;
+    width: 225px;
+    min-height: 140px;
     opacity: 1;
   }
 } /*# sourceMappingURL=Stacks.css.map */

@@ -847,6 +847,47 @@
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
+.Works1_container .sizeUP .past_size_nav {
+  display: none;
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 64px;
+  border: 0;
+  background-color: rgba(43, 43, 51, 0.75);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: 150ms ease;
+  z-index: 2;
+}
+.Works1_container .sizeUP.past-mode .past_size_nav {
+  display: block;
+}
+.Works1_container .sizeUP .past_size_nav:hover {
+  background-color: rgba(75, 60, 87, 0.95);
+}
+.Works1_container .sizeUP .past_size_nav::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
+.Works1_container .sizeUP .past_size_nav.prev {
+  left: 0;
+}
+.Works1_container .sizeUP .past_size_nav.prev::before {
+  transform: translate(-35%, -50%) rotate(-45deg);
+}
+.Works1_container .sizeUP .past_size_nav.next {
+  right: 0;
+}
+.Works1_container .sizeUP .past_size_nav.next::before {
+  transform: translate(-65%, -50%) rotate(135deg);
+}
 .Works1_container .sizeUP.visible {
   opacity: 1;
   pointer-events: auto;

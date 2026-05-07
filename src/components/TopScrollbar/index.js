@@ -78,15 +78,29 @@ $(function () {
   let d = 0;
   let a = 2.5;
   let delt = 0;
-  $(".past_wrap").mousewheel(function (event, delta) {
+  const $pastWrap = $(".past_wrap");
+
+  $pastWrap.on("pointerdown", () => {
+    d = 0;
+    delt = 0;
+  });
+
+  $pastWrap.mousewheel(function (event, delta) {
     d = delta * 30;
     delt = delta;
     a = 2.5;
     event.preventDefault();
   });
   setInterval(() => {
-    let sl = $(".past_wrap").scrollLeft();
-    $(".past_wrap").scrollLeft(sl - d);
+    if (!$pastWrap.length) return;
+    if ($pastWrap.hasClass("is-grabbing")) {
+      d = 0;
+      delt = 0;
+      return;
+    }
+
+    let sl = $pastWrap.scrollLeft();
+    $pastWrap.scrollLeft(sl - d);
 
     if (delt == -1) {
       if (d < 0) {

@@ -63,8 +63,12 @@ new fullpage("#fullpage", {
           400,
         );
         timeOutarray[i++] = setTimeout(
-          () => $("#toolStack").addClass("visible"),
+          () => $("#databaseStack").addClass("visible"),
           700,
+        );
+        timeOutarray[i++] = setTimeout(
+          () => $("#toolStack").addClass("visible"),
+          1000,
         );
         break;
       case 3:
@@ -109,6 +113,7 @@ new fullpage("#fullpage", {
         $("#Stacks").removeClass("visible");
         $("#frontendStack").removeClass("visible");
         $("#backendStack").removeClass("visible");
+        $("#databaseStack").removeClass("visible");
         $("#toolStack").removeClass("visible");
         break;
       case 3:
@@ -174,6 +179,89 @@ $("#about1 .back, #about1 .close").click(() => {
   $("html").css({ overflow: "auto" });
 });
 
+// MY_STORY horizontal drag scroll
+const pastWrap = document.querySelector("#about1 .past_wrap");
+if (pastWrap) {
+  let isPointerDown = false;
+  let activePointerId = null;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let didDrag = false;
+  let pointerDownImg = null;
+  let skipNextClick = false;
+
+  pastWrap.querySelectorAll("img").forEach((img) => {
+    img.setAttribute("draggable", "false");
+  });
+
+  pastWrap.addEventListener("dragstart", (e) => {
+    e.preventDefault();
+  });
+
+  const endDrag = () => {
+    isPointerDown = false;
+    activePointerId = null;
+    pointerDownImg = null;
+    pastWrap.classList.remove("is-grabbing");
+  };
+
+  pastWrap.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+
+    isPointerDown = true;
+    activePointerId = e.pointerId;
+    didDrag = false;
+    pointerDownImg = e.target.closest("img");
+    startX = e.clientX;
+    startScrollLeft = pastWrap.scrollLeft;
+    pastWrap.classList.add("is-grabbing");
+    pastWrap.setPointerCapture(e.pointerId);
+  });
+
+  pastWrap.addEventListener("pointermove", (e) => {
+    if (!isPointerDown || e.pointerId !== activePointerId) return;
+
+    const deltaX = e.clientX - startX;
+    if (Math.abs(deltaX) > 4) didDrag = true;
+    pastWrap.scrollLeft = startScrollLeft - deltaX;
+    e.preventDefault();
+  });
+
+  pastWrap.addEventListener("pointerup", (e) => {
+    if (
+      isPointerDown &&
+      e.pointerId === activePointerId &&
+      !didDrag &&
+      pointerDownImg
+    ) {
+      const imgName = pointerDownImg.getAttribute("src").split("/").pop();
+      pastImgClick(imgName);
+      skipNextClick = true;
+    }
+    endDrag();
+  });
+  pastWrap.addEventListener("pointercancel", endDrag);
+  pastWrap.addEventListener("lostpointercapture", endDrag);
+
+  // Prevent image click when the user dragged instead of clicked.
+  pastWrap.addEventListener(
+    "click",
+    (e) => {
+      if (skipNextClick) {
+        e.preventDefault();
+        e.stopPropagation();
+        skipNextClick = false;
+        return;
+      }
+      if (!didDrag) return;
+      e.preventDefault();
+      e.stopPropagation();
+      didDrag = false;
+    },
+    true,
+  );
+}
+
 //** STACKS **//
 
 // dot background //
@@ -207,6 +295,15 @@ function resizeCanvas() {
   drawDots();
 }
 resizeCanvas();
+
+// stack item toggle (desktop)
+$(".Stacks .stack_container ul li").on("click", function () {
+  if (window.matchMedia("(max-width: 920px)").matches) return;
+
+  const isActive = $(this).hasClass("active");
+  $(".Stacks .stack_container ul li").removeClass("active");
+  if (!isActive) $(this).addClass("active");
+});
 
 // grid
 function drawGrid() {
@@ -249,6 +346,7 @@ drawDots();
 
 let isClick = false;
 let worksItem = 0;
+const worksItemLast = 7;
 let defaultSpeed = 1.3;
 let leftValue = 0;
 let speed = defaultSpeed;
@@ -315,7 +413,7 @@ const subImgClick = (e, index, m = false) => {
 };
 
 const mainImgClick = (e, index, m = false) => {
-  $(".sizeUP").addClass("visible");
+  $(".sizeUP").removeClass("past-mode").addClass("visible");
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
@@ -332,7 +430,7 @@ const mainImgClick = (e, index, m = false) => {
 
 const visualImgClick = (img, m = false) => {
   defaultSpeed = 0;
-  $(".sizeUP").addClass("visible");
+  $(".sizeUP").removeClass("past-mode").addClass("visible");
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
@@ -347,9 +445,15 @@ const visualImgClick = (img, m = false) => {
   $("html").css("overflow", "hidden");
 };
 
-const pastImgClick = (img, m = false) => {
-  $(".sizeUP").addClass("visible");
-  $(".sizeUP").focus();
+const pastImages = Array.from(document.querySelectorAll("#about1 .past_wrap img")).map(
+  (img) => img.getAttribute("src").split("/").pop(),
+);
+let pastImageIndex = 0;
+
+const renderPastSizeUp = (m = false) => {
+  const img = pastImages[pastImageIndex];
+  if (!img) return;
+
   if (m) {
     $(".sizeUP .ct").html(
       `<img class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
@@ -360,8 +464,35 @@ const pastImgClick = (img, m = false) => {
     );
   }
   $(".sizeUP .ct").scrollTop(0);
+};
+
+const pastImgClick = (img, m = false) => {
+  const targetIndex = pastImages.indexOf(img);
+  pastImageIndex = targetIndex >= 0 ? targetIndex : 0;
+
+  $(".sizeUP").addClass("visible past-mode");
+  $(".sizeUP").focus();
+  renderPastSizeUp(m);
   $("html").css("overflow", "hidden");
 };
+
+const movePastSizeUp = (direction) => {
+  if (!$(".sizeUP").hasClass("past-mode") || !pastImages.length) return;
+
+  pastImageIndex =
+    (pastImageIndex + direction + pastImages.length) % pastImages.length;
+  renderPastSizeUp();
+};
+
+$(".sizeUP .past_size_nav.prev").click((e) => {
+  e.stopPropagation();
+  movePastSizeUp(-1);
+});
+
+$(".sizeUP .past_size_nav.next").click((e) => {
+  e.stopPropagation();
+  movePastSizeUp(1);
+});
 
 $(".sizeUP .ct, .sizeUP .top .close").click(() => {
   $(".sizeUP").removeClass("visible");
@@ -375,7 +506,7 @@ $(".Item_nav_next, .m_nav_wrap .next").click(() => {
   $(".wi .info_main span").text("もっと見る");
   if (!isClick) {
     isClick = true;
-    if (worksItem == 6) {
+    if (worksItem == worksItemLast) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
         $(".wi" + 0)
@@ -387,7 +518,7 @@ $(".Item_nav_next, .m_nav_wrap .next").click(() => {
         $("#nav" + 0).addClass("active");
       });
     }
-    if (worksItem < 6) {
+    if (worksItem < worksItemLast) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
         $(".wi" + (worksItem + 1))
@@ -408,13 +539,13 @@ $(".Item_nav_prev, .m_nav_wrap .prev").click(() => {
     if (worksItem == 0) {
       $("#nav" + worksItem).removeClass("active");
       $(".wi" + worksItem).fadeOut(250, "swing", () => {
-        $(".wi" + 6)
+        $(".wi" + worksItemLast)
           .stop()
           .fadeIn(250, "swing", () => {
-            worksItem = 6;
+            worksItem = worksItemLast;
             isClick = false;
           });
-        $("#nav" + 6).addClass("active");
+        $("#nav" + worksItemLast).addClass("active");
       });
     }
     if (worksItem > 0) {
@@ -432,7 +563,7 @@ $(".Item_nav_prev, .m_nav_wrap .prev").click(() => {
   }
 });
 
-for (let i = 0; i < 7; i++) {
+for (let i = 0; i <= worksItemLast; i++) {
   $("#nav" + i).on("click", (event) => {
     if (!isClick) {
       isClick = true;

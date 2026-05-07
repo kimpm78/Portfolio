@@ -1,42 +1,52 @@
 $(document).ready(function () {
+  var LOADING_SHOWN_KEY = "portfolio-loading-shown";
+
   // スクロールをイベントを防ぐための関数
   function disableScroll() {
     // 現在スクロール位置を保存
     var scrollTop = $(window).scrollTop();
-    // 스크롤 위치를 저장하고 있는 변수에 저장된 위치로 다시 이동시킴
+    // スクロールイベントをキャプチャして、スクロール位置を固定
     $(window).on("scroll.disableScroll", function () {
       $(window).scrollTop(scrollTop);
     });
   }
 
-  // 페이지 로드 후 10초 뒤에 실행될 코드
-  setTimeout(function () {
-    // 스크롤 막기 해제
+  // ローディングが完了した後にコンテンツを表示する関数
+  function showContentImmediately() {
     $(window).off("scroll.disableScroll");
-    // 로딩 스크롤 숨기기
-    $("#loading-container").css("display", "none");
-    $("#content").css("display", "block");
-    $("#loading-container").fadeOut("slow");
-    // 스크롤 활성화
+    $("#loading-container").hide();
+    $("#content").css({ display: "block", visibility: "visible" });
+    $("#fp-nav").css("visibility", "visible");
     $("body").css("overflow", "auto");
-  }, 5000);
-
-  // 5초 동안 스크롤 막기
-  disableScroll();
-});
-
-$(document).ready(function () {
-  // 로그인 중에 실행되는 함수
-  function hideContent() {
-    $("#content").css("visibility", "hidden");
-    $("#fp-nav").css("visibility", "hidden");
-    // 10초 후에 다시 보이게 함
-    setTimeout(function () {
-      $("#content").css("visibility", "visible");
-      $("#fp-nav").css("visibility", "visible");
-    }, 5000);
   }
 
-  // 로그인 중에 5초 동안 가시성 숨기기
-  hideContent();
+  // ローディングが既に表示されたかどうかをローカルストレージから確認
+  var hasShownLoading = false;
+  try {
+    hasShownLoading = localStorage.getItem(LOADING_SHOWN_KEY) === "true";
+  } catch (e) {
+    hasShownLoading = false;
+  }
+
+  if (hasShownLoading) {
+    showContentImmediately();
+    return;
+  }
+
+  disableScroll();
+  $("#content").css("visibility", "hidden");
+  $("#fp-nav").css("visibility", "hidden");
+  $("body").css("overflow", "hidden");
+
+  // ローディングを5秒後にフェードアウトしてコンテンツを表示
+  setTimeout(function () {
+    $("#loading-container").fadeOut("slow", function () {
+      showContentImmediately();
+    });
+    try {
+      localStorage.setItem(LOADING_SHOWN_KEY, "true");
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, 5000);
 });
