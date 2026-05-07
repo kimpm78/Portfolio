@@ -115,16 +115,17 @@
                     <h1>新しい道を作り<br><span>いつもチャレンジする</span></h1>
                 </div>
                 <div id="typo_3">
-                    <p>フロントエンドに生かしている Primeです。</p>
-                    <p class="word"><span class="quote">“</span>好奇心を持つ、計画をする<span
+                    <p>フロントエンド開発に活かしている私の考え方は、</p>
+                    <p class="word"><span class="quote">“</span>好奇心を持ち、計画的に行動すること<span
                             class="quote">”</span>
                     </p>
-                    <p> 私の意志と経験から、決してあきらめない姿勢を持ち、完璧を目指して
-                        います。いつも顧客を考え、常に最高の成果を目指しています。<br>同じ言語でなく、常に新しいトレンドに沿って経験を積んでいます。</p>
+                    <p> これまでの経験を通じて、決してあきらめない姿勢を大切にし、
+                        常により良い成果を目指して取り組んできました。<br>また、常に顧客の視点を意識しながら、一つの技術や言語にとどまらず、新しい技術やトレンドを学び、実践を通して経験を積んでいます。
+                    </p>
                     <ul class="tag_wrap">
-                        <li class="tag">#熱情がある</li>
-                        <li class="tag">#詳しい</li>
-                        <li class="tag">#努力家</li>
+                        <li class="tag">#継続力がある</li>
+                        <li class="tag">#最後までやり切る</li>
+                        <li class="tag">#粘り強く取り組む</li>
                     </ul>
                     <a href="#1/1" id="more">
                         <div class="more">詳細を見る</div>
@@ -657,24 +658,27 @@
                     <div class="wi wi7">
                         <div class="Item_wrap">
                             <div class="IMG_wrap">
-                                <div class="IMG_main" onclick="visualImgClick('Login_main_1.png')">
-                                    <img src='./src/img/project_img/Login_main_1.png' alt='cloudia_market_main_img'>
+                                <div class="IMG_main" onclick="projectImgClick('Cloudia Market_main.png')">
+                                    <img src='./src/img/project_img/Cloudia Market_main.png' alt='cloudia_market_main_img'>
                                 </div>
                                 <div class="IMG_sub_wrap">
-                                    <div class="IMG_sub active" onclick="visualImgClick('Login_main_1.png')">
-                                        <img src='./src/img/project_img/Login_main_1.png' alt='cloudia_market_img_1'>
+                                    <div class="IMG_sub active" onclick="subProjectImgClick(7, 'Cloudia Market_main.png', 0)">
+                                        <img src='./src/img/project_img/Cloudia Market_main.png' alt='cloudia_market_img_1'>
+                                    </div>
+                                    <div class="IMG_sub" onclick="subProjectImgClick(7, 'Cloudia Market_admin.png', 1)">
+                                        <img src='./src/img/project_img/Cloudia Market_admin.png' alt='cloudia_market_img_2'>
                                     </div>
                                 </div>
                             </div>
                             <div class="info_wrap">
                                 <div class="info_title">Cloudia Market</div>
                                 <div class="info_sub">個人プロジェクト</div>
-                                <div class="info_main">マーケット機能を中心に構成したECサイトです。
-                                    商品一覧、検索、カートなど、ユーザーが商品を探して購入するまでの流れを意識して制作しました。
+                                <div class="info_main">フロントエンドとバックエンドを使用して構築したマーケットサイトです。
+                                    メインページでは商品一覧や商品詳細を確認でき、管理者ページでは商品の登録・編集・削除などの商品管理ができます。
                                     <span onclick="moreButtonClick(7)">もっと見る</span>
                                     <div class="more_wrap">
                                         <p>~~~</p>
-                                        フロントエンドの画面構成だけでなく、データ連携や状態管理を意識しながら、実際のサービスに近い操作感を目指して実装しました。
+                                        ユーザー向けの画面と管理者向けの画面を分けて構成し、商品データを管理しながら実際のECサービスに近い操作感を目指して実装しました。
                                     </div>
                                 </div>
                                 <ul class="tag_wrap">
@@ -816,6 +820,23 @@
                                     </div>
                                 </div>
                             </li>
+                            <li id="v5" onclick="visualImgClick('Cloudia Market_product.png')"><img
+                                    src='src/img/project_img/Cloudia Market_product.png' alt='cloudia_market_product'>
+                                <div class="info_wrap">
+                                    <img src="src/img/project_img/Cloudia Market_logo.png">
+                                    <p>Cloudia Market</p>
+                                    <div class="colorset_wrap">
+                                        <ul>
+                                            <li>#111827<div style="background-color: #111827;"></div>
+                                            </li>
+                                            <li>#F8FAFC<div style="background-color: #F8FAFC;"></div>
+                                            </li>
+                                            <li>#64748B<div style="background-color: #64748B;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -827,20 +848,17 @@
                 <div class="blend_background"></div>
                 <h1>CONTACT</h1>
                 <div class="Contact_wrap">
-                    <p>PROJECT PRIME</p>
-                    <p>プロジェクトの実装が完了次第にアップロードをしています。</p>
-                    <p><a href="https://github.com/kimpm78" target="_blank">GITHUB : https://github.com/kimpm78</a></p>
+                    <p class="contact_label">PROJECT PRIME</p>
+                    <p class="contact_text">プロジェクトの実装が完了次第、順次アップロードしています。</p>
+                    <a class="github_button" href="https://github.com/kimpm78" target="_blank">
+                        <img src="src/img/github.png" alt="GitHub">
+                        <span>GitHubを見る</span>
+                    </a>
+                    <p class="github_url">github.com/kimpm78</p>
                 </div>
-                <ul class="social_wrap">
-                    <li>
-                    <a href="https://github.com/kimpm78" target="_blank">
-                        <img src="src/img/github.png" alt="GITHUB"></a></li>
-                    <!-- <li><a href="#"><img src="src/img/instagram.png" alt="INSTAGRAM"></a></li>
-                    <li> -->
-                    <!-- <a href="#"><img src="src/img/facebook.png" alt="FACEBOOK"></a></li> -->
-                </ul>
                 <div class="copyright">Copyright ⓒ 2023 - 2026 PrimeProject All rights reserved.
                 </div>
+            </div>
         </section>
     </div>
 </body>

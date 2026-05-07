@@ -1,6 +1,6 @@
 .Works2_container {
   position: relative;
-  min-height: 100vh;
+  min-height: auto;
 }
 .Works2_container .blend_background {
   position: absolute;
@@ -11,7 +11,7 @@
   z-index: -1;
 }
 .Works2_container h1 {
-  padding-top: 120px;
+  padding-top: 0;
   text-align: center;
   font-size: 2.7rem;
   font-weight: 900;
@@ -26,10 +26,9 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding-top: 100px;
+  padding: 100px 0 120px;
   height: 400px;
   overflow-x: hidden;
-  padding-bottom: 170px;
 }
 .Works2_container .Visual_container .Visual_wrap {
   position: absolute;
@@ -140,7 +139,8 @@
 
 @media (max-width: 900px) {
   .Works2_container {
-    min-height: none;
+    min-height: auto;
+    padding: 80px 0 100px;
   }
 }
 @media (hover: hover) {

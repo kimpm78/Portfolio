@@ -14,6 +14,8 @@
 .Works1_container {
   position: relative;
   min-height: 100vh;
+  padding: 90px 0;
+  box-sizing: border-box;
   background: linear-gradient(
     rgb(27, 29, 33) 0%,
     rgb(24, 25, 31) 33%,
@@ -22,7 +24,6 @@
   );
 }
 .Works1_container > h1 {
-  padding-top: 60px;
   text-align: center;
   font-size: 2.7rem;
   font-weight: 900;
@@ -32,8 +33,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 1200px;
   margin-top: 30px;
-  padding-bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 50px;
   opacity: 0;
   transform: translateY(150px);
   transition: 800ms ease;
@@ -898,7 +903,6 @@
   justify-content: center;
   align-items: center;
   gap: 28px;
-  padding-bottom: 120px;
   opacity: 0;
   transition: 600ms;
 }
@@ -957,7 +961,8 @@
 @media (min-width: 901px) and (max-width: 1280px) {
   .Item_container {
     margin-top: 70px !important;
-    justify-content: space-evenly !important;
+    justify-content: center !important;
+    gap: 40px !important;
   }
   .Item_container::before {
     width: 700px !important;
@@ -981,11 +986,11 @@
 }
 @media (max-width: 900px) {
   .Works1_container > h1 {
-    padding-top: 70px !important;
+    padding-top: 0 !important;
   }
   .Item_container {
     margin-top: 50px !important;
-    padding-bottom: 80px !important;
+    padding-bottom: 60px !important;
   }
   .Item_container::before {
     display: none;
@@ -1019,7 +1024,6 @@
   }
   .Item_nav_button_wrap {
     gap: 25px !important;
-    padding-bottom: 120px;
   }
   .Item_nav_button_wrap li {
     width: 9px !important;

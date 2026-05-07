@@ -167,7 +167,7 @@
 }
 .Stacks_container .stack_container ul li div p:last-child {
   font-weight: 300;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   padding-right: 15px;
   line-height: 1.45;
 }
@@ -178,7 +178,7 @@
     padding-bottom: 120px !important;
   }
   .Stacks_container h1 {
-    padding-top: 90px;
+    padding-top: 50px;
   }
   .Stacks_container h2 {
     display: none !important;

@@ -445,6 +445,37 @@ const visualImgClick = (img, m = false) => {
   $("html").css("overflow", "hidden");
 };
 
+const projectImgClick = (img, m = false) => {
+  $(".sizeUP").removeClass("past-mode").addClass("visible");
+  $(".sizeUP").focus();
+  if (m) {
+    $(".sizeUP .ct").html(
+      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
+    );
+  } else {
+    $(".sizeUP .ct").html(
+      `<img src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
+    );
+  }
+  $(".sizeUP .ct").scrollTop(0);
+  $("html").css("overflow", "hidden");
+};
+
+const subProjectImgClick = (e, img, index, m = false) => {
+  $(".wi" + e + " .IMG_sub").removeClass("active");
+  $(".wi" + e + " .IMG_sub").eq(index).addClass("active");
+
+  if (m) {
+    document.querySelector(".wi" + e + " .IMG_main").outerHTML =
+      `<div class="IMG_main" onclick="projectImgClick('${img}', ${m})"><img class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクト画像'></div>`;
+  } else {
+    document.querySelector(".wi" + e + " .IMG_main").outerHTML =
+      `<div class="IMG_main" onclick="projectImgClick('${img}')"><img src='./src/img/project_img/${img}' alt='プロジェクトイメージ'></div>`;
+  }
+  $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
+  $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
+};
+
 const pastImages = Array.from(document.querySelectorAll("#about1 .past_wrap img")).map(
   (img) => img.getAttribute("src").split("/").pop(),
 );
