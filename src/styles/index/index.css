@@ -86,6 +86,12 @@ a {
   html {
     font-size: 14px !important;
   }
+  p,
+  .info_main {
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
   h1 {
     font-size: 2.1rem !important;
   }
