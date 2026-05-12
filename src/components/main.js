@@ -204,6 +204,7 @@ if (pastWrap) {
   };
 
   pastWrap.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse") return;
     if (e.button !== 0) return;
 
     isPointerDown = true;
@@ -217,6 +218,7 @@ if (pastWrap) {
   });
 
   pastWrap.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
     if (!isPointerDown || e.pointerId !== activePointerId) return;
 
     const deltaX = e.clientX - startX;
@@ -226,6 +228,7 @@ if (pastWrap) {
   });
 
   pastWrap.addEventListener("pointerup", (e) => {
+    if (e.pointerType !== "mouse") return;
     if (
       isPointerDown &&
       e.pointerId === activePointerId &&

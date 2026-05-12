@@ -175,15 +175,15 @@
 @media (max-width: 1080px) {
   .Stacks_container {
     width: 100%;
-    padding: 0 20px !important;
-    padding-bottom: 90px !important;
+    padding: 0 20px;
+    padding-bottom: 90px;
   }
   .Stacks_container h1 {
     padding-top: 56px;
     font-size: 2.2rem;
   }
   .Stacks_container h2 {
-    display: block !important;
+    display: block;
     max-width: 320px;
     margin: 0 auto;
     color: rgb(190, 193, 203);
@@ -191,60 +191,60 @@
     line-height: 1.45;
   }
   .Stacks_container .subTitle {
-    margin-top: 38px !important;
-    margin-bottom: 14px !important;
+    margin-top: 38px;
+    margin-bottom: 14px;
     justify-content: center;
   }
   .Stacks_container .subTitle span {
     padding: 5px 18px;
-    margin-left: 0px !important;
+    margin-left: 0px;
     font-size: 0.82rem;
     letter-spacing: 0;
   }
   .Stacks_container .stack_container {
     width: 100%;
     min-height: 0;
-    padding: 0 !important;
+    padding: 0;
   }
   .Stacks_container .stack_container ul {
     width: 100%;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-    place-items: stretch !important;
-    box-sizing: border-box !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    place-items: stretch;
+    box-sizing: border-box;
   }
   .Stacks_container .stack_container ul li {
-    display: grid !important;
-    grid-template-columns: 46px minmax(0, 1fr) !important;
-    align-items: center !important;
-    width: auto !important;
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-items: center;
+    width: auto;
     min-width: 0;
-    max-width: none !important;
-    height: auto !important;
-    min-height: 92px !important;
-    padding: 12px !important;
+    max-width: none;
+    height: auto;
+    min-height: 92px;
+    padding: 12px;
     background-color: rgb(10, 11, 14);
     border: 1px solid rgb(44, 47, 57);
-    border-radius: 6px !important;
+    border-radius: 6px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-    box-sizing: border-box !important;
+    box-sizing: border-box;
   }
   .Stacks_container .stack_container ul li::before {
     display: none;
   }
   .Stacks_container .stack_container ul li div {
-    position: relative !important;
-    left: auto !important;
-    width: 100% !important;
-    opacity: 1 !important;
+    position: relative;
+    left: auto;
+    width: 100%;
+    opacity: 1;
     min-width: 0;
     min-height: 0;
-    margin-left: 8px !important;
+    margin-left: 8px;
     overflow: hidden;
   }
   .Stacks_container .stack_container ul li div p {
-    padding: 0 !important;
+    padding: 0;
     cursor: auto;
   }
   .Stacks_container .stack_container ul li div p:first-child {
@@ -262,56 +262,56 @@
     -webkit-line-clamp: 2;
   }
   .Stacks_container .stack_container ul li img {
-    width: 38px !important;
+    width: 38px;
     justify-self: center;
   }
   .Stacks_container .stack_container ul li img.height_icon {
-    width: auto !important;
-    height: 38px !important;
+    width: auto;
+    height: 38px;
   }
   .Stacks_container .stack_container ul li img.postgres_icon {
-    width: 48px !important;
+    width: 48px;
   }
 }
 @media (max-width: 500px) {
   .Stacks_container {
-    padding: 0 14px !important;
-    padding-bottom: 72px !important;
+    padding: 0 14px;
+    padding-bottom: 72px;
   }
   .Stacks_container h1 {
     padding-top: 44px;
-    font-size: 1.9rem !important;
+    font-size: 1.9rem;
   }
   .Stacks_container .subTitle {
-    margin-top: 32px !important;
-    margin-bottom: 12px !important;
+    margin-top: 32px;
+    margin-bottom: 12px;
   }
   .Stacks_container .stack_container {
-    padding: 0 !important;
+    padding: 0;
   }
   .Stacks_container .stack_container ul {
-    grid-template-columns: 1fr !important;
-    gap: 9px !important;
+    grid-template-columns: 1fr;
+    gap: 9px;
   }
   .Stacks_container .stack_container ul li {
-    grid-template-columns: 50px minmax(0, 1fr) !important;
-    max-width: none !important;
-    min-width: 100% !important;
-    min-height: 78px !important;
-    padding: 10px 12px !important;
+    grid-template-columns: 50px minmax(0, 1fr);
+    max-width: none;
+    min-width: 100%;
+    min-height: 78px;
+    padding: 10px 12px;
   }
   .Stacks_container .stack_container ul li div {
-    margin-left: 8px !important;
+    margin-left: 8px;
   }
   .Stacks_container .stack_container ul li img {
-    width: 36px !important;
+    width: 36px;
   }
   .Stacks_container .stack_container ul li img.height_icon {
-    width: auto !important;
-    height: 36px !important;
+    width: auto;
+    height: 36px;
   }
   .Stacks_container .stack_container ul li img.postgres_icon {
-    width: 46px !important;
+    width: 46px;
   }
   .Stacks_container .stack_container ul li div p:last-child {
     -webkit-line-clamp: 2;
