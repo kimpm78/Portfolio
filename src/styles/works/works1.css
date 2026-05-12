@@ -1052,22 +1052,21 @@
   }
   .Works1_container .sizeUP .ct {
     height: calc(100% - 40px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
   }
   .Works1_container .sizeUP .ct img {
-    width: 100%;
+    width: 92vw;
     max-width: 100vw;
     height: auto;
-    left: auto;
-    transform: none;
+    left: 50%;
+    transform: translateX(-50%);
     object-fit: contain;
   }
   .Works1_container .sizeUP .ct img.mobileImg {
     width: auto;
     max-width: min(78vw, 360px);
     min-width: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 @media (max-width: 450px) {
