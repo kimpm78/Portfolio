@@ -3,22 +3,20 @@ history.replaceState({}, null, location.pathname);
 const timeOutarray = [];
 let vMove;
 
-// Fullpage 옵션 및 애니메이션 적용
+// Fullpageのオプション設定とセクションアニメーション
 new fullpage("#fullpage", {
-  // Options
-  licenseKey: "",
+  // オプション
+  licenseKey: "gplv3-license",
   autoScrolling: false,
 
   fitToSection: false,
-  scrollOverflow: true,
   scrollingSpeed: 600,
   easingcss3: "cubic-bezier(0.770, 0.000, 0.175, 1.000)",
   css3: false,
-  dragAndMove: true,
   anchors: ["0", "1", "2", "3", "4"],
   responsiveWidth: 680,
   normalScrollElements: ".sizeUP, .past_wrap, #about1",
-  // Navigation
+  // ナビゲーション
   menu: "#menu",
   navigation: true,
   navigationTooltips: ["INTRO", "ABOUT", "STACKS", "WORKS", "CONTACT"],
@@ -27,11 +25,11 @@ new fullpage("#fullpage", {
   slidesNavigation: false,
   controlArrows: false,
   loopHorizontal: false,
-  bigSectionsDestination: top,
+  bigSectionsDestination: "top",
   animateAnchor: false,
   recordHistory: false,
 
-  // Callback
+  // コールバック
   afterLoad: function (anchorLink, origin) {
     $(".slide").removeClass("active");
 
@@ -39,7 +37,7 @@ new fullpage("#fullpage", {
     switch (origin.index) {
       case 0:
         $("#Intro").addClass("visible");
-        $("#menu0").addClass("visible");
+        $(".menu0").addClass("visible");
         break;
       case 1:
         $("#About").addClass("visible");
@@ -98,7 +96,7 @@ new fullpage("#fullpage", {
   onLeave: function (origin, index) {
     $(".ct").removeClass("visible");
     $("header .right li").removeClass("visible");
-    $("#menu" + index.index).addClass("visible");
+    $(".menu" + index.index).addClass("visible");
     $("#about1").removeClass("visible");
     timeOutarray.forEach((e) => {
       clearTimeout(e);
@@ -130,7 +128,7 @@ new fullpage("#fullpage", {
   },
 });
 
-//** HEADER **//
+//** ヘッダー **//
 
 let isOpen = false;
 
@@ -179,7 +177,7 @@ $("#about1 .back, #about1 .close").click(() => {
   $("html").css({ overflow: "auto" });
 });
 
-// MY_STORY horizontal drag scroll
+// MY_STORYの横ドラッグスクロール
 const pastWrap = document.querySelector("#about1 .past_wrap");
 if (pastWrap) {
   let isPointerDown = false;
@@ -243,7 +241,7 @@ if (pastWrap) {
   pastWrap.addEventListener("pointercancel", endDrag);
   pastWrap.addEventListener("lostpointercapture", endDrag);
 
-  // Prevent image click when the user dragged instead of clicked.
+  // ドラッグ操作後に画像クリックが発火しないようにする
   pastWrap.addEventListener(
     "click",
     (e) => {
@@ -262,9 +260,9 @@ if (pastWrap) {
   );
 }
 
-//** STACKS **//
+//** スキルスタック **//
 
-// dot background //
+// ドット背景
 function getDocumentWidth() {
   return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 }
@@ -296,7 +294,7 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-// stack item toggle (desktop)
+// スキル項目の切り替え（デスクトップ）
 $(".Stacks .stack_container ul li").on("click", function () {
   if (window.matchMedia("(max-width: 920px)").matches) return;
 
@@ -305,20 +303,20 @@ $(".Stacks .stack_container ul li").on("click", function () {
   if (!isActive) $(this).addClass("active");
 });
 
-// grid
+// グリッド
 function drawGrid() {
   var cellW = 10,
     cellH = 10;
 
-  // vertical lines
+  // 縦線
   for (var x = 0; x <= vw; x += cellW) {
-    context.moveTo(x, 0); // x, y
+    context.moveTo(x, 0);
     context.lineTo(x, vh);
   }
 
-  // horizontal lines
+  // 横線
   for (var y = 0; y <= vh; y += cellH) {
-    context.moveTo(0, y); // x, y
+    context.moveTo(0, y);
     context.lineTo(vw, y);
   }
 
@@ -327,7 +325,7 @@ function drawGrid() {
 }
 // drawGrid();
 
-// dots
+// ドット
 function drawDots() {
   var r = 2.2,
     cw = 40,
@@ -342,7 +340,7 @@ function drawDots() {
 }
 drawDots();
 
-//** WORKS 1 **//
+//** 制作実績 1 **//
 
 let isClick = false;
 let worksItem = 0;
@@ -364,7 +362,7 @@ const changeItemEvent = (prev, next) => {
   });
 };
 
-// 갤러리 함수
+// ギャラリー関連処理
 
 $(window).resize(function () {
   $(".wi .info_main .more_wrap").slideUp(0);
@@ -373,7 +371,7 @@ $(window).resize(function () {
 
 let readmeOpen = false;
 
-// 클릭 이벤트
+// クリックイベント
 const readmeClick = () => {
   if (readmeOpen) {
     $(".readme_container").removeClass("visible");
@@ -400,13 +398,11 @@ const subImgClick = (e, index, m = false) => {
     .eq(index)
     .addClass("active");
   if (m) {
-    //$('.wi' + e + ' .IMG_main').html(`<img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクト画像'></div>`;
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img decoding='async' class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクト画像'></div>`;
   } else {
-    //$('.wi' + e + ' .IMG_main').html(`<img src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ' onclick="mainImgClick(${e}, ${index}, ${m})">`);
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ'></div>`;
+      `<div class="IMG_main" onclick="mainImgClick(${e}, ${index}, ${m})"><img decoding='async' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ'></div>`;
   }
   $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
   $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
@@ -417,11 +413,11 @@ const mainImgClick = (e, index, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='ロジェクトイメージ'>`,
+      `<img decoding='async' class='mobileImg' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img src='./src/img/project_img/${e}_${index}.png' alt='ロジェクトイメージ'>`,
+      `<img decoding='async' src='./src/img/project_img/${e}_${index}.png' alt='プロジェクトイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -434,11 +430,11 @@ const visualImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
+      `<img decoding='async' class='mobileImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='visualImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
+      `<img decoding='async' class='visualImg' src='./src/img/project_img/${img}' alt='デザインイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -450,11 +446,11 @@ const projectImgClick = (img, m = false) => {
   $(".sizeUP").focus();
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
+      `<img decoding='async' class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
+      `<img decoding='async' src='./src/img/project_img/${img}' alt='プロジェクトイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -467,10 +463,10 @@ const subProjectImgClick = (e, img, index, m = false) => {
 
   if (m) {
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="projectImgClick('${img}', ${m})"><img class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクト画像'></div>`;
+      `<div class="IMG_main" onclick="projectImgClick('${img}', ${m})"><img decoding='async' class='mobileImg' src='./src/img/project_img/${img}' alt='プロジェクト画像'></div>`;
   } else {
     document.querySelector(".wi" + e + " .IMG_main").outerHTML =
-      `<div class="IMG_main" onclick="projectImgClick('${img}')"><img src='./src/img/project_img/${img}' alt='プロジェクトイメージ'></div>`;
+      `<div class="IMG_main" onclick="projectImgClick('${img}')"><img decoding='async' src='./src/img/project_img/${img}' alt='プロジェクトイメージ'></div>`;
   }
   $(".wi" + e + " .IMG_main img").css({ opacity: "0" });
   $(".wi" + e + " .IMG_main img").animate({ opacity: "1" }, 150);
@@ -487,11 +483,11 @@ const renderPastSizeUp = (m = false) => {
 
   if (m) {
     $(".sizeUP .ct").html(
-      `<img class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
+      `<img decoding='async' class='mobileImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
     );
   } else {
     $(".sizeUP .ct").html(
-      `<img class='pastImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
+      `<img decoding='async' class='pastImg' src='./src/img/past/${img}' alt='デザインイメージ'>`,
     );
   }
   $(".sizeUP .ct").scrollTop(0);
@@ -603,9 +599,9 @@ for (let i = 0; i <= worksItemLast; i++) {
   });
 }
 
-//** WORKS 2 **//
+//** 制作実績 2 **//
 
-// 갤러리 자동 이동
+// ギャラリーの自動移動
 $(".Visual_wrap").append($(".Visual_wrap ul").clone());
 
 const visualMove = () => {
@@ -617,6 +613,11 @@ const visualMove = () => {
     leftValue = 0;
   }
   leftValue -= speed;
+};
+
+const startVisualMove = () => {
+  visualMove();
+  vMove = window.requestAnimationFrame(startVisualMove);
 };
 
 $(".Visual_wrap").hover(
@@ -639,6 +640,6 @@ $(".Visual_wrap")
     speed = defaultSpeed;
   });
 
-vMove = setInterval(() => visualMove(), 10);
-
-console.clear();
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  startVisualMove();
+}

@@ -76,22 +76,45 @@ $(function () {
     custom: true,
   });
   let d = 0;
-  let a = 2.5;
+  let a = 3.2;
   let delt = 0;
+  const wheelSpeed = 14;
   const $pastWrap = $(".past_wrap");
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  let pastWrapFrame = 0;
 
   $pastWrap.on("pointerdown", () => {
     d = 0;
     delt = 0;
+    if (pastWrapFrame) {
+      cancelAnimationFrame(pastWrapFrame);
+      pastWrapFrame = 0;
+    }
   });
 
   $pastWrap.mousewheel(function (event, delta) {
-    d = delta * 30;
+    if (reducedMotion) {
+      $pastWrap.scrollLeft($pastWrap.scrollLeft() - delta * wheelSpeed);
+      event.preventDefault();
+      return;
+    }
+
+    d = delta * wheelSpeed;
     delt = delta;
-    a = 2.5;
+    a = 3.2;
+    schedulePastWrapMove();
     event.preventDefault();
   });
-  setInterval(() => {
+
+  const schedulePastWrapMove = () => {
+    if (reducedMotion || pastWrapFrame) return;
+    pastWrapFrame = requestAnimationFrame(movePastWrap);
+  };
+
+  const movePastWrap = () => {
+    pastWrapFrame = 0;
     if (!$pastWrap.length) return;
     if ($pastWrap.hasClass("is-grabbing")) {
       d = 0;
@@ -99,8 +122,10 @@ $(function () {
       return;
     }
 
-    let sl = $pastWrap.scrollLeft();
-    $pastWrap.scrollLeft(sl - d);
+    if (d !== 0) {
+      let sl = $pastWrap.scrollLeft();
+      $pastWrap.scrollLeft(sl - d);
+    }
 
     if (delt == -1) {
       if (d < 0) {
@@ -118,5 +143,8 @@ $(function () {
         d = 0;
       }
     }
-  }, 10);
+    if (d !== 0) {
+      schedulePastWrapMove();
+    }
+  };
 });
