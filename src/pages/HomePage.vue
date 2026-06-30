@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeaderNav from '../components/layout/HeaderNav.vue'
+import SectionProgress from '../components/layout/SectionProgress.vue'
 import SectionNav from '../components/layout/SectionNav.vue'
 import Intro from '../components/sections/Intro.vue'
 import About from '../components/sections/About.vue'
@@ -10,6 +11,7 @@ import Contact from '../components/sections/Contact.vue'
 </script>
 
 <template>
+  <SectionProgress />
   <HeaderNav />
   <SectionNav />
 
