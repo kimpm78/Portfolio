@@ -23,7 +23,7 @@ import {
   Upload,
   X,
 } from 'lucide-vue-next';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { staticWorkProjects, workImageUrl } from '../../data/workProjects';
 import { db } from '../../firebase/firebase';
@@ -74,6 +74,8 @@ const isEditorOpen = ref(false);
 const errorMessage = ref('');
 const selectedMainImageFile = ref<File | null>(null);
 const selectedGalleryFiles = ref<File[]>([]);
+const mainImagePreviewUrl = ref('');
+const galleryFilePreviewUrls = ref<string[]>([]);
 const tagInput = ref('');
 
 const initialForm: WorkProjectForm = {
@@ -124,6 +126,12 @@ const openAddWorkEditor = () => {
 const closeWorkEditor = () => {
   resetForm();
   isEditorOpen.value = false;
+};
+
+const revokeObjectUrl = (url: string) => {
+  if (url) {
+    URL.revokeObjectURL(url);
+  }
 };
 
 const parseTags = (tagsText: string) => {
@@ -185,6 +193,18 @@ const createLinks = (): WorkLink[] => {
     { label: 'Demo', url: form.value.demoUrl.trim() },
   ].filter((link) => link.url);
 };
+
+const previewWorkImages = computed(() => {
+  return [
+    mainImagePreviewUrl.value || form.value.imageUrl.trim(),
+    ...createGalleryImageUrls(),
+    ...galleryFilePreviewUrls.value,
+  ]
+    .filter(Boolean)
+    .slice(0, 5);
+});
+
+const previewWorkLinks = computed(() => createLinks());
 
 const findLinkUrl = (links: WorkLink[], label: string) => {
   const normalizedLabel = label.toLowerCase();
@@ -499,6 +519,24 @@ const goBack = () => {
   router.push('/admin');
 };
 
+watch(selectedMainImageFile, (file, previousFile) => {
+  if (previousFile) {
+    revokeObjectUrl(mainImagePreviewUrl.value);
+  }
+
+  mainImagePreviewUrl.value = file ? URL.createObjectURL(file) : '';
+});
+
+watch(selectedGalleryFiles, (files) => {
+  galleryFilePreviewUrls.value.forEach(revokeObjectUrl);
+  galleryFilePreviewUrls.value = files.map((file) => URL.createObjectURL(file));
+});
+
+onBeforeUnmount(() => {
+  revokeObjectUrl(mainImagePreviewUrl.value);
+  galleryFilePreviewUrls.value.forEach(revokeObjectUrl);
+});
+
 onMounted(() => {
   loadWorks();
   resetForm();
@@ -559,7 +597,7 @@ onMounted(() => {
           ></button>
 
           <form
-            class="relative z-10 w-full max-w-[760px] min-w-0 rounded-[2rem] border border-white/10 bg-[rgb(27,29,32)] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.6)] max-[520px]:px-4"
+            class="relative z-10 w-full max-w-[1120px] min-w-0 rounded-[2rem] border border-white/10 bg-[rgb(27,29,32)] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.6)] max-[520px]:px-4"
             @submit.prevent="saveWork"
           >
             <div
@@ -590,279 +628,378 @@ onMounted(() => {
               {{ errorMessage }}
             </p>
 
-            <div class="space-y-5">
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">プロジェクト名</span>
-                <input
-                  v-model="form.title"
-                  type="text"
-                  placeholder="例：ポートフォリオ管理システム"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">サブタイトル</span>
-                <input
-                  v-model="form.subTitle"
-                  type="text"
-                  placeholder="例：Vue 3 / Firebase によるポートフォリオ管理"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">概要</span>
-                <textarea
-                  v-model="form.description"
-                  rows="4"
-                  placeholder="一覧やカードに表示する短めの説明文を入力してください。"
-                  class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                ></textarea>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">詳細説明</span>
-                <textarea
-                  v-model="form.moreDescription"
-                  rows="5"
-                  placeholder="モーダルや詳細表示で使用する補足説明を入力してください。担当範囲、工夫した点、実装内容などを記載します。"
-                  class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                ></textarea>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">画像の代替テキスト</span>
-                <input
-                  v-model="form.imageAlt"
-                  type="text"
-                  placeholder="未入力の場合はプロジェクト名を使用します。"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-              </label>
-
-              <div class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">使用技術タグ</span>
-                <div class="flex gap-2">
-                  <input
-                    v-model="tagInput"
-                    type="text"
-                    placeholder="例：Vue.js"
-                    class="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    @keydown.enter.prevent="addTag"
-                  />
-                  <button
-                    type="button"
-                    class="shrink-0 rounded-xl bg-white px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-[rgb(255,255,130)]"
-                    @click="addTag"
+            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+              <section
+                class="rounded-2xl border border-white/10 bg-black/25 p-4 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2"
+              >
+                <div class="mb-3 flex items-center justify-between gap-3">
+                  <div>
+                    <p class="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-white/35">
+                      LIVE PREVIEW
+                    </p>
+                    <h3 class="mt-1 text-base font-black text-white">メイン表示プレビュー</h3>
+                  </div>
+                  <span
+                    class="rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold text-white/45"
                   >
-                    追加
-                  </button>
+                    WORKS
+                  </span>
                 </div>
 
-                <ul v-if="currentTags.length" class="mt-3 flex flex-wrap gap-2">
-                  <li
-                    v-for="tag in currentTags"
-                    :key="tag"
-                    class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-bold text-white/70"
+                <div class="overflow-hidden rounded-lg border border-white/10 bg-[rgb(24,26,31)]">
+                  <div
+                    class="relative flex h-44 items-start justify-center overflow-hidden bg-[#2b2b33] max-[520px]:h-36"
                   >
-                    <span>{{ tag }}</span>
+                    <img
+                      v-if="previewWorkImages[0]"
+                      :src="previewWorkImages[0]"
+                      :alt="form.imageAlt || form.title || 'WORKS preview'"
+                      class="h-full w-full object-contain"
+                      :class="
+                        form.isMobileImage
+                          ? 'absolute left-1/2 h-full w-[32%] -translate-x-1/2'
+                          : ''
+                      "
+                    />
+                    <div
+                      v-else
+                      class="flex h-full w-full items-center justify-center text-sm font-bold text-white/30"
+                    >
+                      メイン画像を選択してください
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="previewWorkImages.length > 1"
+                    class="flex gap-2 border-t border-white/10 p-2"
+                  >
+                    <div
+                      v-for="image in previewWorkImages"
+                      :key="image"
+                      class="relative h-12 w-20 shrink-0 overflow-hidden border border-white/10 bg-[#2b2b33]"
+                    >
+                      <img
+                        :src="image"
+                        :alt="form.imageAlt || form.title || 'WORKS thumbnail'"
+                        class="h-full w-full object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="p-4">
+                    <p
+                      class="text-xs font-bold uppercase tracking-[0.18em] text-[rgb(255,255,130)]/80"
+                    >
+                      {{ form.subTitle || 'サブタイトル' }}
+                    </p>
+                    <h4 class="mt-1 text-xl font-black text-white">
+                      {{ form.title || 'プロジェクト名' }}
+                    </h4>
+                    <p class="mt-2 line-clamp-2 text-sm leading-6 text-white/55">
+                      {{ form.description || '概要を入力するとここに表示されます。' }}
+                    </p>
+
+                    <ul v-if="currentTags.length" class="mt-3 flex flex-wrap gap-2">
+                      <li
+                        v-for="tag in currentTags"
+                        :key="`preview-${tag}`"
+                        class="rounded-full bg-white/5 px-3 py-1.5 text-xs font-bold text-white/60"
+                      >
+                        {{ tag }}
+                      </li>
+                    </ul>
+
+                    <div
+                      v-if="previewWorkLinks.length"
+                      class="mt-4 flex flex-wrap gap-2 text-xs font-bold text-[rgb(255,255,130)]/80"
+                    >
+                      <span
+                        v-for="link in previewWorkLinks"
+                        :key="`preview-${link.label}`"
+                        class="inline-flex items-center gap-1.5"
+                      >
+                        <Link :size="13" :stroke-width="2.4" aria-hidden="true" />
+                        {{ link.label }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <div class="space-y-5 lg:col-start-1 lg:row-start-1">
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">プロジェクト名</span>
+                  <input
+                    v-model="form.title"
+                    type="text"
+                    placeholder="例：ポートフォリオ管理システム"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">サブタイトル</span>
+                  <input
+                    v-model="form.subTitle"
+                    type="text"
+                    placeholder="例：Vue 3 / Firebase によるポートフォリオ管理"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">概要</span>
+                  <textarea
+                    v-model="form.description"
+                    rows="4"
+                    placeholder="一覧やカードに表示する短めの説明文を入力してください。"
+                    class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  ></textarea>
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">詳細説明</span>
+                  <textarea
+                    v-model="form.moreDescription"
+                    rows="5"
+                    placeholder="モーダルや詳細表示で使用する補足説明を入力してください。担当範囲、工夫した点、実装内容などを記載します。"
+                    class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  ></textarea>
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">画像の代替テキスト</span>
+                  <input
+                    v-model="form.imageAlt"
+                    type="text"
+                    placeholder="未入力の場合はプロジェクト名を使用します。"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                </label>
+
+                <div class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">使用技術タグ</span>
+                  <div class="flex gap-2">
+                    <input
+                      v-model="tagInput"
+                      type="text"
+                      placeholder="例：Vue.js"
+                      class="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      @keydown.enter.prevent="addTag"
+                    />
                     <button
                       type="button"
-                      class="text-white/35 transition hover:text-red-200"
-                      :aria-label="`${tag}を削除`"
-                      @click="removeTag(tag)"
+                      class="shrink-0 rounded-xl bg-white px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-[rgb(255,255,130)]"
+                      @click="addTag"
                     >
-                      <X :size="14" :stroke-width="2.4" aria-hidden="true" />
+                      追加
                     </button>
-                  </li>
-                </ul>
+                  </div>
 
-                <p v-else class="mt-3 text-xs leading-5 text-white/35">
-                  タグが未登録です。入力後、「追加」をクリックしてください。
-                </p>
-              </div>
-              <div class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">関連リンク</span>
-                <div class="grid gap-3">
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >GitHub</span
+                  <ul v-if="currentTags.length" class="mt-3 flex flex-wrap gap-2">
+                    <li
+                      v-for="tag in currentTags"
+                      :key="tag"
+                      class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-bold text-white/70"
                     >
+                      <span>{{ tag }}</span>
+                      <button
+                        type="button"
+                        class="text-white/35 transition hover:text-red-200"
+                        :aria-label="`${tag}を削除`"
+                        @click="removeTag(tag)"
+                      >
+                        <X :size="14" :stroke-width="2.4" aria-hidden="true" />
+                      </button>
+                    </li>
+                  </ul>
+
+                  <p v-else class="mt-3 text-xs leading-5 text-white/35">
+                    タグが未登録です。入力後、「追加」をクリックしてください。
+                  </p>
+                </div>
+                <div class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">関連リンク</span>
+                  <div class="grid gap-3">
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >GitHub</span
+                      >
+                      <input
+                        v-model="form.githubUrl"
+                        type="url"
+                        placeholder="https://github.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Figma</span
+                      >
+                      <input
+                        v-model="form.figmaUrl"
+                        type="url"
+                        placeholder="https://figma.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Demo</span
+                      >
+                      <input
+                        v-model="form.demoUrl"
+                        type="url"
+                        placeholder="https://example.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                  </div>
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    URLが空のリンクは保存されず、画面にも表示されません。
+                  </p>
+                </div>
+
+                <div class="grid gap-4 md:grid-cols-2">
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">メイン画像</span>
                     <input
-                      v-model="form.githubUrl"
-                      type="url"
-                      placeholder="https://github.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      type="file"
+                      accept="image/*"
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
+                      @change="setMainImageFile"
                     />
+                    <p v-if="selectedMainImageFile" class="mt-2 text-xs text-white/35">
+                      選択中: {{ selectedMainImageFile.name }}
+                    </p>
                   </label>
+
                   <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Figma</span
+                    <span class="mb-2 block text-sm font-bold text-white/60"
+                      >ギャラリー画像（最大：4枚）</span
                     >
                     <input
-                      v-model="form.figmaUrl"
-                      type="url"
-                      placeholder="https://figma.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
+                      @change="setGalleryFiles"
                     />
-                  </label>
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Demo</span
-                    >
-                    <input
-                      v-model="form.demoUrl"
-                      type="url"
-                      placeholder="https://example.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    />
+                    <p v-if="selectedGalleryFiles.length" class="mt-2 text-xs text-white/35">
+                      選択中: {{ selectedGalleryFiles.length }}枚
+                    </p>
                   </label>
                 </div>
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  URLが空のリンクは保存されず、画面にも表示されません。
-                </p>
-              </div>
 
-              <div class="grid gap-4 md:grid-cols-2">
                 <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">メイン画像</span>
+                  <span class="mb-2 block text-sm font-bold text-white/60">メイン画像URL</span>
                   <input
-                    type="file"
-                    accept="image/*"
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
-                    @change="setMainImageFile"
+                    v-model="form.imageUrl"
+                    type="text"
+                    placeholder="Cloudinaryアップロード後は自動で設定されます。"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
                   />
-                  <p v-if="selectedMainImageFile" class="mt-2 text-xs text-white/35">
-                    選択中: {{ selectedMainImageFile.name }}
-                  </p>
                 </label>
 
-                <label class="block">
+                <div class="block">
                   <span class="mb-2 block text-sm font-bold text-white/60"
-                    >ギャラリー画像（最大：4枚）</span
+                    >ギャラリー画像URL（最大：4枚）</span
                   >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
-                    @change="setGalleryFiles"
-                  />
-                  <p v-if="selectedGalleryFiles.length" class="mt-2 text-xs text-white/35">
-                    選択中: {{ selectedGalleryFiles.length }}枚
+                  <div class="grid gap-3">
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Gallery 1</span
+                      >
+                      <input
+                        v-model="form.galleryImageUrl1"
+                        type="url"
+                        placeholder="https://res.cloudinary.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Gallery 2</span
+                      >
+                      <input
+                        v-model="form.galleryImageUrl2"
+                        type="url"
+                        placeholder="https://res.cloudinary.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Gallery 3</span
+                      >
+                      <input
+                        v-model="form.galleryImageUrl3"
+                        type="url"
+                        placeholder="https://res.cloudinary.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                    <label class="block">
+                      <span
+                        class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                        >Gallery 4</span
+                      >
+                      <input
+                        v-model="form.galleryImageUrl4"
+                        type="url"
+                        placeholder="https://res.cloudinary.com/..."
+                        class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      />
+                    </label>
+                  </div>
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    空のURLは保存されません。アップロードした画像は空き枠へ追加されます。
                   </p>
-                </label>
-              </div>
+                </div>
 
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">メイン画像URL</span>
-                <input
-                  v-model="form.imageUrl"
-                  type="text"
-                  placeholder="Cloudinaryアップロード後は自動で設定されます。"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-              </label>
+                <div class="grid gap-4 md:grid-cols-3">
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">表示順</span>
+                    <input
+                      v-model.number="form.order"
+                      type="number"
+                      min="1"
+                      class="h-12 w-full rounded-xl border border-white/10 bg-white/10 px-4 text-white outline-none transition focus:border-white/40"
+                    />
+                  </label>
 
-              <div class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60"
-                  >ギャラリー画像URL（最大：4枚）</span
-                >
-                <div class="grid gap-3">
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Gallery 1</span
-                    >
-                    <input
-                      v-model="form.galleryImageUrl1"
-                      type="url"
-                      placeholder="https://res.cloudinary.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    />
+                  <label
+                    class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70 md:mt-7"
+                  >
+                    モバイル画像
+                    <input v-model="form.isMobileImage" type="checkbox" class="h-5 w-5" />
                   </label>
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Gallery 2</span
-                    >
-                    <input
-                      v-model="form.galleryImageUrl2"
-                      type="url"
-                      placeholder="https://res.cloudinary.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    />
-                  </label>
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Gallery 3</span
-                    >
-                    <input
-                      v-model="form.galleryImageUrl3"
-                      type="url"
-                      placeholder="https://res.cloudinary.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    />
-                  </label>
-                  <label class="block">
-                    <span
-                      class="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-white/35"
-                      >Gallery 4</span
-                    >
-                    <input
-                      v-model="form.galleryImageUrl4"
-                      type="url"
-                      placeholder="https://res.cloudinary.com/..."
-                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    />
+
+                  <label
+                    class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70 md:mt-7"
+                  >
+                    公開する
+                    <input v-model="form.isVisible" type="checkbox" class="h-5 w-5" />
                   </label>
                 </div>
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  空のURLは保存されません。アップロードした画像は空き枠へ追加されます。
-                </p>
               </div>
 
-              <div class="grid gap-4 md:grid-cols-3">
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">表示順</span>
-                  <input
-                    v-model.number="form.order"
-                    type="number"
-                    min="1"
-                    class="h-12 w-full rounded-xl border border-white/10 bg-white/10 px-4 text-white outline-none transition focus:border-white/40"
-                  />
-                </label>
-
-                <label
-                  class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70 md:mt-7"
-                >
-                  モバイル画像
-                  <input v-model="form.isMobileImage" type="checkbox" class="h-5 w-5" />
-                </label>
-
-                <label
-                  class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70 md:mt-7"
-                >
-                  公開する
-                  <input v-model="form.isVisible" type="checkbox" class="h-5 w-5" />
-                </label>
-              </div>
+              <button
+                type="submit"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-black text-slate-950 transition hover:bg-[rgb(255,255,130)] disabled:opacity-50 lg:col-start-1 lg:row-start-2"
+                :disabled="isSaving"
+              >
+                <Save v-if="isEditing" :size="18" :stroke-width="2.4" aria-hidden="true" />
+                <Plus v-else :size="18" :stroke-width="2.4" aria-hidden="true" />
+                {{ isSaving ? '保存中...' : isEditing ? '更新する' : '追加する' }}
+              </button>
             </div>
-
-            <button
-              type="submit"
-              class="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-black text-slate-950 transition hover:bg-[rgb(255,255,130)] disabled:opacity-50"
-              :disabled="isSaving"
-            >
-              <Save v-if="isEditing" :size="18" :stroke-width="2.4" aria-hidden="true" />
-              <Plus v-else :size="18" :stroke-width="2.4" aria-hidden="true" />
-              {{ isSaving ? '保存中...' : isEditing ? '更新する' : '追加する' }}
-            </button>
           </form>
         </div>
 

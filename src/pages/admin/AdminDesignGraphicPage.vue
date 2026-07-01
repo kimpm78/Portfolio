@@ -12,7 +12,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { ArrowLeft, Eye, EyeOff, Pencil, Plus, Save, Trash2, Upload, X } from 'lucide-vue-next';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { designGraphicImageUrl, staticDesignGraphicWorks } from '../../data/designGraphicWorks';
 import { db } from '../../firebase/firebase';
@@ -49,6 +49,8 @@ const isEditorOpen = ref(false);
 const errorMessage = ref('');
 const selectedImageFile = ref<File | null>(null);
 const selectedLogoFile = ref<File | null>(null);
+const imagePreviewUrl = ref('');
+const logoPreviewUrl = ref('');
 const colorInput = ref('');
 
 const initialForm: DesignGraphicForm = {
@@ -95,6 +97,12 @@ const closeDesignGraphicEditor = () => {
   isEditorOpen.value = false;
 };
 
+const revokeObjectUrl = (url: string) => {
+  if (url) {
+    URL.revokeObjectURL(url);
+  }
+};
+
 const parseColors = (colorsText: string) => {
   return colorsText
     .split(',')
@@ -103,6 +111,9 @@ const parseColors = (colorsText: string) => {
 };
 
 const currentColors = computed(() => parseColors(form.value.colorsText));
+
+const previewDesignImage = computed(() => imagePreviewUrl.value || form.value.imageUrl.trim());
+const previewDesignLogo = computed(() => logoPreviewUrl.value || form.value.logoUrl.trim());
 
 const setColors = (colors: string[]) => {
   form.value.colorsText = colors.join(', ');
@@ -432,6 +443,27 @@ const goBack = () => {
   router.push('/admin');
 };
 
+watch(selectedImageFile, (file, previousFile) => {
+  if (previousFile) {
+    revokeObjectUrl(imagePreviewUrl.value);
+  }
+
+  imagePreviewUrl.value = file ? URL.createObjectURL(file) : '';
+});
+
+watch(selectedLogoFile, (file, previousFile) => {
+  if (previousFile) {
+    revokeObjectUrl(logoPreviewUrl.value);
+  }
+
+  logoPreviewUrl.value = file ? URL.createObjectURL(file) : '';
+});
+
+onBeforeUnmount(() => {
+  revokeObjectUrl(imagePreviewUrl.value);
+  revokeObjectUrl(logoPreviewUrl.value);
+});
+
 onMounted(() => {
   loadDesignGraphics();
   resetForm();
@@ -492,7 +524,7 @@ onMounted(() => {
           ></button>
 
           <form
-            class="relative z-10 w-full max-w-[760px] min-w-0 rounded-[2rem] border border-white/10 bg-[rgb(27,29,32)] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.6)] max-[520px]:px-4"
+            class="relative z-10 w-full max-w-[1120px] min-w-0 rounded-[2rem] border border-white/10 bg-[rgb(27,29,32)] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.6)] max-[520px]:px-4"
             @submit.prevent="saveDesignGraphic"
           >
             <div
@@ -523,227 +555,327 @@ onMounted(() => {
               {{ errorMessage }}
             </p>
 
-            <div class="space-y-5">
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">タイトル</span>
-                <input
-                  v-model="form.title"
-                  type="text"
-                  placeholder="例：KAZARU PROJECT"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  一覧カードと拡大表示で使用する作品名です。
-                </p>
-              </label>
-
-              <div class="grid gap-4 md:grid-cols-2">
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">カテゴリ</span>
-                  <input
-                    v-model="form.category"
-                    type="text"
-                    placeholder="例：Brand Design"
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                  />
-                  <p class="mt-2 text-xs leading-5 text-white/35">作品の種類を短く入力します。</p>
-                </label>
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">期間</span>
-                  <input
-                    v-model="form.period"
-                    type="text"
-                    placeholder="例：2026"
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                  />
-                  <p class="mt-2 text-xs leading-5 text-white/35">制作年や制作期間を表示します。</p>
-                </label>
-              </div>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">説明</span>
-                <textarea
-                  v-model="form.description"
-                  rows="4"
-                  placeholder="制作意図、担当範囲、ビジュアルの特徴を入力してください。"
-                  class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                ></textarea>
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  カードに表示される短めの説明文です。長すぎる場合は一覧で省略されます。
-                </p>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">代替テキスト</span>
-                <input
-                  v-model="form.alt"
-                  type="text"
-                  placeholder="未入力の場合はタイトルを使用します。"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  画像が表示されない場合やアクセシビリティ用に使用します。
-                </p>
-              </label>
-
-              <div class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">配色</span>
-                <div class="flex gap-2">
-                  <input
-                    v-model="colorInput"
-                    type="text"
-                    placeholder="例：#000000"
-                    class="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                    @keydown.enter.prevent="addColor"
-                  />
-                  <button
-                    type="button"
-                    class="shrink-0 rounded-xl bg-white px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-[rgb(255,255,130)]"
-                    @click="addColor"
+            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+              <section
+                class="rounded-2xl border border-white/10 bg-black/25 p-4 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2"
+              >
+                <div class="mb-3 flex items-center justify-between gap-3">
+                  <div>
+                    <p class="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-white/35">
+                      LIVE PREVIEW
+                    </p>
+                    <h3 class="mt-1 text-base font-black text-white">メイン表示プレビュー</h3>
+                  </div>
+                  <span
+                    class="rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold text-white/45"
                   >
-                    追加
-                  </button>
+                    DESIGN
+                  </span>
                 </div>
 
-                <ul v-if="currentColors.length" class="mt-3 flex flex-wrap gap-2">
-                  <li
-                    v-for="color in currentColors"
-                    :key="color"
-                    class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-bold text-white/70"
+                <div class="overflow-hidden rounded-lg border border-white/10 bg-[rgb(24,26,31)]">
+                  <div
+                    class="relative flex h-64 w-full items-center justify-center overflow-hidden bg-[rgb(18,19,23)] max-[520px]:h-52"
                   >
-                    <span
-                      class="h-3.5 w-3.5 rounded-full border border-white/30"
-                      :style="{ backgroundColor: color }"
-                    ></span>
-                    <span>{{ color }}</span>
+                    <img
+                      v-if="previewDesignImage"
+                      :src="designGraphicImageUrl(previewDesignImage)"
+                      :alt="form.alt || form.title || 'DESIGN preview'"
+                      class="h-full w-full object-contain p-3"
+                    />
+                    <div
+                      v-else
+                      class="flex h-full w-full items-center justify-center text-sm font-bold text-white/30"
+                    >
+                      メイン画像を選択してください
+                    </div>
+
+                    <div
+                      class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4"
+                    >
+                      <span
+                        class="min-w-0 border border-white/10 bg-black/55 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-white/75 backdrop-blur"
+                      >
+                        {{ form.category || 'Category' }}
+                      </span>
+                      <span
+                        class="shrink-0 border border-white/10 bg-white/10 px-3 py-1.5 text-[0.68rem] font-bold text-white/70 backdrop-blur"
+                      >
+                        {{ form.period || '期間' }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="p-4">
+                    <div class="mb-3 flex min-h-9 items-center justify-between gap-4">
+                      <img
+                        v-if="previewDesignLogo"
+                        :src="designGraphicImageUrl(previewDesignLogo)"
+                        :alt="`${form.title || 'DESIGN'} logo`"
+                        class="min-w-0 max-h-10 max-w-40 object-contain"
+                      />
+                      <span
+                        v-else
+                        class="text-xs font-bold uppercase tracking-[0.18em] text-white/35"
+                      >
+                        Visual Identity
+                      </span>
+                      <span
+                        v-if="form.isFeatured"
+                        class="rounded-full bg-[rgb(255,255,130)] px-2 py-1 text-xs font-black text-slate-950"
+                      >
+                        注目
+                      </span>
+                    </div>
+
+                    <h4 class="text-xl font-black leading-tight text-white">
+                      {{ form.title || 'タイトル' }}
+                    </h4>
+                    <p class="mt-2 line-clamp-2 text-sm leading-6 text-white/55">
+                      {{ form.description || '説明を入力するとここに表示されます。' }}
+                    </p>
+
+                    <ul v-if="currentColors.length" class="mt-4 flex flex-wrap gap-2">
+                      <li
+                        v-for="color in currentColors"
+                        :key="`preview-${color}`"
+                        class="inline-flex items-center gap-2 border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-[0.68rem] font-bold text-white/60"
+                      >
+                        <span
+                          class="h-3.5 w-3.5 shrink-0 border border-white/25"
+                          :style="{ backgroundColor: color }"
+                        ></span>
+                        <span>{{ color }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <div class="space-y-5 lg:col-start-1 lg:row-start-1">
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">タイトル</span>
+                  <input
+                    v-model="form.title"
+                    type="text"
+                    placeholder="例：KAZARU PROJECT"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    一覧カードと拡大表示で使用する作品名です。
+                  </p>
+                </label>
+
+                <div class="grid gap-4 md:grid-cols-2">
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">カテゴリ</span>
+                    <input
+                      v-model="form.category"
+                      type="text"
+                      placeholder="例：Brand Design"
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                    />
+                    <p class="mt-2 text-xs leading-5 text-white/35">作品の種類を短く入力します。</p>
+                  </label>
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">期間</span>
+                    <input
+                      v-model="form.period"
+                      type="text"
+                      placeholder="例：2026"
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                    />
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      制作年や制作期間を表示します。
+                    </p>
+                  </label>
+                </div>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">説明</span>
+                  <textarea
+                    v-model="form.description"
+                    rows="4"
+                    placeholder="制作意図、担当範囲、ビジュアルの特徴を入力してください。"
+                    class="w-full resize-none rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  ></textarea>
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    カードに表示される短めの説明文です。長すぎる場合は一覧で省略されます。
+                  </p>
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">代替テキスト</span>
+                  <input
+                    v-model="form.alt"
+                    type="text"
+                    placeholder="未入力の場合はタイトルを使用します。"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    画像が表示されない場合やアクセシビリティ用に使用します。
+                  </p>
+                </label>
+
+                <div class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">配色</span>
+                  <div class="flex gap-2">
+                    <input
+                      v-model="colorInput"
+                      type="text"
+                      placeholder="例：#000000"
+                      class="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                      @keydown.enter.prevent="addColor"
+                    />
                     <button
                       type="button"
-                      class="text-white/35 transition hover:text-red-200"
-                      :aria-label="`${color}を削除`"
-                      @click="removeColor(color)"
+                      class="shrink-0 rounded-xl bg-white px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-[rgb(255,255,130)]"
+                      @click="addColor"
                     >
-                      <X :size="14" :stroke-width="2.4" aria-hidden="true" />
+                      追加
                     </button>
-                  </li>
-                </ul>
+                  </div>
 
-                <p v-else class="mt-3 text-xs leading-5 text-white/35">
-                  配色が未登録です。HEXカラーを入力後、「追加」をクリックしてください。
-                </p>
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  メイン画面のColors表示に使用します。ブランドカラーや背景色を3色前後で登録すると見やすくなります。
-                </p>
-              </div>
+                  <ul v-if="currentColors.length" class="mt-3 flex flex-wrap gap-2">
+                    <li
+                      v-for="color in currentColors"
+                      :key="color"
+                      class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-bold text-white/70"
+                    >
+                      <span
+                        class="h-3.5 w-3.5 rounded-full border border-white/30"
+                        :style="{ backgroundColor: color }"
+                      ></span>
+                      <span>{{ color }}</span>
+                      <button
+                        type="button"
+                        class="text-white/35 transition hover:text-red-200"
+                        :aria-label="`${color}を削除`"
+                        @click="removeColor(color)"
+                      >
+                        <X :size="14" :stroke-width="2.4" aria-hidden="true" />
+                      </button>
+                    </li>
+                  </ul>
 
-              <div class="grid gap-4 md:grid-cols-2">
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">メイン画像</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
-                    @change="setImageFile"
-                  />
-                  <p v-if="selectedImageFile" class="mt-2 text-xs text-white/35">
-                    選択中: {{ selectedImageFile.name }}
+                  <p v-else class="mt-3 text-xs leading-5 text-white/35">
+                    配色が未登録です。HEXカラーを入力後、「追加」をクリックしてください。
                   </p>
                   <p class="mt-2 text-xs leading-5 text-white/35">
-                    一覧カードと拡大表示に使用するメインビジュアルです。
-                  </p>
-                </label>
-
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">ロゴ画像</span>
-                  <input
-                    type="file"
-                    accept="image/*,.svg"
-                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
-                    @change="setLogoFile"
-                  />
-                  <p v-if="selectedLogoFile" class="mt-2 text-xs text-white/35">
-                    選択中: {{ selectedLogoFile.name }}
-                  </p>
-                  <p class="mt-2 text-xs leading-5 text-white/35">
-                    任意項目です。登録するとカード内にロゴを表示します。
-                  </p>
-                </label>
-              </div>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">メイン画像URL</span>
-                <input
-                  v-model="form.imageUrl"
-                  type="text"
-                  placeholder="Cloudinaryアップロード後は自動で設定されます。"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  既にCloudinaryなどの画像URLがある場合は直接入力できます。
-                </p>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-sm font-bold text-white/60">ロゴURL</span>
-                <input
-                  v-model="form.logoUrl"
-                  type="text"
-                  placeholder="任意。ロゴ画像URLを入力します。"
-                  class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
-                />
-                <p class="mt-2 text-xs leading-5 text-white/35">
-                  空の場合はロゴなしの作品として表示されます。
-                </p>
-              </label>
-
-              <div class="grid gap-4 md:grid-cols-3">
-                <label class="block">
-                  <span class="mb-2 block text-sm font-bold text-white/60">表示順</span>
-                  <input
-                    v-model.number="form.order"
-                    type="number"
-                    min="1"
-                    class="h-12 w-full rounded-xl border border-white/10 bg-white/10 px-4 text-white outline-none transition focus:border-white/40"
-                  />
-                  <p class="mt-2 text-xs leading-5 text-white/35">
-                    数字が小さい作品から順番に表示されます。
-                  </p>
-                </label>
-
-                <div class="md:mt-7">
-                  <label
-                    class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70"
-                  >
-                    注目表示
-                    <input v-model="form.isFeatured" type="checkbox" class="h-5 w-5" />
-                  </label>
-                  <p class="mt-2 text-xs leading-5 text-white/35">
-                    ONにするとメイン画面で横幅を広く使って表示します。
+                    メイン画面のColors表示に使用します。ブランドカラーや背景色を3色前後で登録すると見やすくなります。
                   </p>
                 </div>
 
-                <div class="md:mt-7">
-                  <label
-                    class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70"
-                  >
-                    公開する
-                    <input v-model="form.isVisible" type="checkbox" class="h-5 w-5" />
+                <div class="grid gap-4 md:grid-cols-2">
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">メイン画像</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
+                      @change="setImageFile"
+                    />
+                    <p v-if="selectedImageFile" class="mt-2 text-xs text-white/35">
+                      選択中: {{ selectedImageFile.name }}
+                    </p>
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      一覧カードと拡大表示に使用するメインビジュアルです。
+                    </p>
                   </label>
+
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">ロゴ画像</span>
+                    <input
+                      type="file"
+                      accept="image/*,.svg"
+                      class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:font-bold file:text-slate-950"
+                      @change="setLogoFile"
+                    />
+                    <p v-if="selectedLogoFile" class="mt-2 text-xs text-white/35">
+                      選択中: {{ selectedLogoFile.name }}
+                    </p>
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      任意項目です。登録するとカード内にロゴを表示します。
+                    </p>
+                  </label>
+                </div>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">メイン画像URL</span>
+                  <input
+                    v-model="form.imageUrl"
+                    type="text"
+                    placeholder="Cloudinaryアップロード後は自動で設定されます。"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
                   <p class="mt-2 text-xs leading-5 text-white/35">
-                    OFFにするとFirestoreには残したままメイン画面では非表示になります。
+                    既にCloudinaryなどの画像URLがある場合は直接入力できます。
                   </p>
+                </label>
+
+                <label class="block">
+                  <span class="mb-2 block text-sm font-bold text-white/60">ロゴURL</span>
+                  <input
+                    v-model="form.logoUrl"
+                    type="text"
+                    placeholder="任意。ロゴ画像URLを入力します。"
+                    class="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none transition placeholder:text-white/25 focus:border-white/40"
+                  />
+                  <p class="mt-2 text-xs leading-5 text-white/35">
+                    空の場合はロゴなしの作品として表示されます。
+                  </p>
+                </label>
+
+                <div class="grid gap-4 md:grid-cols-3">
+                  <label class="block">
+                    <span class="mb-2 block text-sm font-bold text-white/60">表示順</span>
+                    <input
+                      v-model.number="form.order"
+                      type="number"
+                      min="1"
+                      class="h-12 w-full rounded-xl border border-white/10 bg-white/10 px-4 text-white outline-none transition focus:border-white/40"
+                    />
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      数字が小さい作品から順番に表示されます。
+                    </p>
+                  </label>
+
+                  <div class="md:mt-7">
+                    <label
+                      class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70"
+                    >
+                      注目表示
+                      <input v-model="form.isFeatured" type="checkbox" class="h-5 w-5" />
+                    </label>
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      ONにするとメイン画面で横幅を広く使って表示します。
+                    </p>
+                  </div>
+
+                  <div class="md:mt-7">
+                    <label
+                      class="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 text-sm font-bold text-white/70"
+                    >
+                      公開する
+                      <input v-model="form.isVisible" type="checkbox" class="h-5 w-5" />
+                    </label>
+                    <p class="mt-2 text-xs leading-5 text-white/35">
+                      OFFにするとFirestoreには残したままメイン画面では非表示になります。
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              <button
+                type="submit"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-black text-slate-950 transition hover:bg-[rgb(255,255,130)] disabled:opacity-50 lg:col-start-1 lg:row-start-2"
+                :disabled="isSaving"
+              >
+                <Save v-if="isEditing" :size="18" :stroke-width="2.4" aria-hidden="true" />
+                <Plus v-else :size="18" :stroke-width="2.4" aria-hidden="true" />
+                {{ isSaving ? '保存中...' : isEditing ? '更新する' : '追加する' }}
+              </button>
             </div>
-
-            <button
-              type="submit"
-              class="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-black text-slate-950 transition hover:bg-[rgb(255,255,130)] disabled:opacity-50"
-              :disabled="isSaving"
-            >
-              <Save v-if="isEditing" :size="18" :stroke-width="2.4" aria-hidden="true" />
-              <Plus v-else :size="18" :stroke-width="2.4" aria-hidden="true" />
-              {{ isSaving ? '保存中...' : isEditing ? '更新する' : '追加する' }}
-            </button>
           </form>
         </div>
 
