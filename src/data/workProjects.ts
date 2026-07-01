@@ -26,6 +26,44 @@ export const workImageUrl = (fileName: string) => {
 
 export const staticWorkProjects: [WorkProjectData, ...WorkProjectData[]] = [
   {
+    order: 1,
+    title: 'Mennavi Order System',
+    subTitle: '個人プロジェクト',
+    description:
+      '飲食店の注文管理を想定して制作したオーダーシステムです。メニュー確認、注文内容の管理、管理画面でのデータ操作を意識して構成しました。',
+    moreDescription:
+      'ユーザーが分かりやすく注文できる画面と、管理者が注文状況を確認しやすい画面を分けて設計しました。実際の店舗運用を意識し、情報の見やすさと操作のしやすさを重視しています。',
+    tags: [
+      '#Laravel',
+      '#Vue.js',
+      '#TailwindCSS',
+      '#Vite',
+      '#PostgreSQL',
+      '#Docker',
+      '#GitHubActions',
+    ],
+    images: [
+      'Mennavi_Order System_main.webp',
+      'Mennavi_Order System_01.webp',
+      'Mennavi_Order System_admin_main.webp',
+    ],
+    imageAlt: 'mennavi_order_system_img',
+    links: [
+      {
+        label: 'GitHub',
+        url: 'https://github.com/kimpm78/mennavi-order-system',
+      },
+      {
+        label: 'Figma',
+        url: 'https://www.figma.com/design/RhwDauFVbhUJafFBWvXa6h/ramen_navi?node-id=0-1&t=PM1YSX22G5hewAML-1',
+      },
+      {
+        label: 'Demo',
+        url: 'https://kimpm78.github.io/mennavi-order-system/',
+      },
+    ],
+  },
+  {
     order: 2,
     title: 'Cloudia Market',
     subTitle: '個人プロジェクト',
@@ -35,8 +73,9 @@ export const staticWorkProjects: [WorkProjectData, ...WorkProjectData[]] = [
       'ユーザー向けの画面と管理者向けの画面を分けて構成し、商品データを管理しながら実際のECサービスに近い操作感を目指して実装しました。',
     tags: ['#React', '#JavaScript', '#CSS', '#Java', '#Docker'],
     images: [
-      'https://res.cloudinary.com/dopdjsitj/image/upload/v1782456258/portfolio/works/legacy/cloudia-market/bkqex7km0oxr0xupmtqy.png',
-      'https://res.cloudinary.com/dopdjsitj/image/upload/v1782456258/portfolio/works/legacy/cloudia-market/dlda72tuqopgeugeicw3.png',
+      'Cloudia Market_main.webp',
+      'Cloudia Market_product.webp',
+      'Cloudia Market_admin.webp',
     ],
     imageAlt: 'cloudia_market_img',
     isMobileImage: true,
@@ -182,4 +221,4 @@ export const staticWorkProjects: [WorkProjectData, ...WorkProjectData[]] = [
       },
     ],
   },
-]
+];
