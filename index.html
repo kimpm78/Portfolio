@@ -11,6 +11,23 @@
     <meta property="og:image" content="https://kimpm78.github.io/Portfolio/src/img/prime_logo.svg" />
     <meta property="og:description" content="ようこそ。Prime PORTFOLIOへ" />
     <link rel="shortcut icon" href="/src/img/favicon.ico" />
+    <script>
+      ;(function (location) {
+        if (!location.search.startsWith('?/')) {
+          return
+        }
+
+        var decodedPath = location.search
+          .slice(2)
+          .split('&')
+          .map(function (segment) {
+            return segment.replace(/~and~/g, '&')
+          })
+          .join('?')
+
+        window.history.replaceState(null, '', location.pathname + decodedPath + location.hash)
+      })(window.location)
+    </script>
   </head>
   <body>
     <div id="app"></div>
