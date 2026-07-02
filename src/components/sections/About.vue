@@ -114,14 +114,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="About" ref="aboutSectionRef" class="min-h-screen bg-[rgb(27,29,32)] text-white">
+  <section id="About" ref="aboutSectionRef" class="min-h-screen bg-[rgb(27,29,32)] text-white max-[960px]:min-h-[100svh]">
     <div
       v-if="aboutProfile"
-      class="relative mx-auto box-border flex min-h-[calc(100vh-140px)] max-w-[1410px] flex-col justify-center px-[25px] py-[70px] max-[960px]:min-h-screen max-[960px]:w-full max-[960px]:items-center max-[960px]:overflow-x-hidden max-[960px]:px-6 max-[480px]:px-[18px]"
+      class="relative mx-auto box-border flex min-h-[calc(100vh-140px)] max-w-[1410px] flex-col justify-center px-[25px] py-[70px] max-[960px]:min-h-[100svh] max-[960px]:w-full max-[960px]:items-center max-[960px]:justify-start max-[960px]:overflow-x-hidden max-[960px]:px-6 max-[960px]:py-12 max-[480px]:px-[18px] max-[480px]:py-9"
     >
       <div
-        class="absolute top-[70px] z-0 h-[calc(100%-70px)] min-h-[530px] w-[500px] bg-[length:900px_auto] bg-[position:22%_0%] bg-no-repeat opacity-50 brightness-[0.8] max-[960px]:top-[70px] max-[960px]:h-[calc(100%-70px)] max-[960px]:min-h-0 max-[960px]:w-screen max-[960px]:bg-[length:960px_auto]"
-        :style="{ backgroundImage: `url(${deskImageUrl})`, backgroundAttachment: 'fixed' }"
+        class="absolute top-[70px] z-0 h-[calc(100%-70px)] min-h-[530px] w-[500px] bg-fixed bg-[length:900px_auto] bg-[position:22%_0%] bg-no-repeat opacity-50 brightness-[0.8] max-[960px]:inset-0 max-[960px]:h-full max-[960px]:min-h-full max-[960px]:w-screen max-[960px]:bg-scroll max-[960px]:bg-cover max-[960px]:bg-center max-[960px]:opacity-45"
+        :style="{ backgroundImage: `url(${deskImageUrl})` }"
       ></div>
 
       <div
@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
         <p class="max-[960px]:break-normal">
           {{ aboutProfile.introLead }}
         </p>
-        <p class="ml-2 text-sm text-[rgb(255,149,149)] max-[480px]:ml-0">
+        <p class="ml-2 text-lg text-[rgb(255,149,149)] max-[480px]:ml-0">
           <span class="font-['Noto_Sans_JP']">“</span>
           {{ aboutProfile.quote }}
           <span class="font-['Noto_Sans_JP']">”</span>
